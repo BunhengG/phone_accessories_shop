@@ -1,0 +1,89 @@
+
+
+
+/*
+
+    Here are custom color theme.
+    to call this we can use => style: anyName,
+
+*/
+
+// Orange
+primaryColor 
+
+// Dark Blue
+secondaryColor
+
+// Light Sky
+thirdColor
+
+// White
+backgroundColor
+
+// Dark
+titleColor
+
+// Grey
+bodyColor
+
+// Light Grey
+placeholderColor
+
+// Gradient 1
+orange + light_orange
+
+// Gradient 2
+light_sky + light_blue
+
+
+
+
+
+
+
+/*
+
+    Here are custom text theme.
+    to call this we can use => AppTextStyles.anyName()
+
+*/
+
+
+// Extra TITLE
+getExtraTitleSize
+
+// TITLE
+getTitleSize
+
+// SUBTITLE
+getSubtitleSize
+
+// SIMI_SUBTITLE
+getSIMISubtitleSize
+
+// BODY
+getBodySize
+
+// placeholder
+getPlaceholderSize
+
+// Text Button
+getTextButtonSize
+
+
+
+
+
+
+
+
+/*
+
+    Here are custom shadow theme.
+    to call this we can use => AppShadows.anyName()
+
+*/
+
+
+// MEDIUM SHADOW
+getMediumShadow

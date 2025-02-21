@@ -1,0 +1,109 @@
+{
+  "homePage": {
+    "helloUser": "Hello, ",
+    "currentAddress": "Current Address: ",
+    "search": "Search...",
+    "categories": "Categories",
+    "topSelling": "Top Selling",
+    "newIn": "New In",
+    "seeAll": "See All"
+  },
+
+  "categoriesPage": {
+    "title": "All Categories",
+    "search": "Search...",
+    "watch": "Watch",
+    "cans": "Cans",
+    "charger": "Charger",
+    "phoneStands": "Phone Stands",
+    "airPods": "AirPods",
+    "powerBank": "Power Bank",
+    "emptyMessage": "Sorry, we couldn’t find any matching result for your Search."
+  },
+
+  "topSellingPage": {
+    "title": "Top Selling"
+  },
+
+  "newInPage": {
+    "title": "New In"
+  },
+
+  "NotificationPage": {
+    "title": "Notifications",
+    "emptyMessage": "No Notification yet"
+  },
+
+  "ordersPage": {
+    "title": "Orders",
+    "emptyMessage": "No Orders yet"
+  },
+
+  "singleProduct": {
+    "title": "",
+    "color": "Color",
+    "quantity": "Quantity"
+  },
+
+  "cartPage": {
+    "title": "Cart",
+    "removeAll": "Remove All",
+    "color": "Color",
+    "subtotal": "Subtotal",
+    "shippingCost": "Shipping Cost",
+    "tax": "Tax",
+    "total": "Total",
+    "couponCode": "Enter Coupon Code",
+    "emptyMessage": "Your Cart is Empty"
+  },
+
+  "checkOutPage": {
+    "title": "Checkout",
+    "shipping": "Shipping Address",
+    "payment": "Payment Method",
+    "subtotal": "Subtotal",
+    "shippingCost": "Shipping Cost",
+    "tax": "Tax",
+    "total": "Total"
+  },
+
+  "paymentMethodPage": {
+    "title": "payment Method",
+    "method1": "Cash On Delivery",
+    "method2": "KHQR"
+  },
+
+  "DonePage": {
+    "title": "Order Placed Successfully",
+    "subtitle": "You will receive an email confirmation",
+    "method2": "KHQR"
+  },
+
+
+  "profilePage": {
+    "title": "Profile",
+    "address": "Address",
+    "wishlist": "Wishlist",
+    "payment": "Payment",
+    "help": "Help",
+    "support": "Support",
+    "signOut": "Sign Out"
+  },
+
+  "addressPage":{
+    "title": "Address",
+    "emptyMessage": "Set your location now."
+  },
+
+  "wishlistPage":{
+    "title": "Wishlist",
+    "allMyFav": "All My Favorite"
+  },
+
+  "paymentPage":{
+    "title": "Payment Method",
+    "card": "Card",
+    "other": "Other Method",
+    "emptyMessage": "Set your payment method now."
+  }
+}
