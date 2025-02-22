@@ -34,7 +34,9 @@ class ProductModel {
       type: json['type'],
       mainImage: json['main_image'],
       galleryImages: List<String>.from(json['gallery_images'] ?? []),
-      createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : DateTime.now(),
       salesCount: json['sales_count'] ?? 0,
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       colors: List<String>.from(json['colors'] ?? []),

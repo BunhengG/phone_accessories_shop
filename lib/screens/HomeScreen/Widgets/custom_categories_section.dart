@@ -10,22 +10,27 @@ Widget buildCategoriesSection({
   final List<Map<String, String>> categories = [
     {
       'title': AppStrings.categoriesPage.watch,
+      'value': 'watch',
       'iconPath': 'assets/icon/icon_apple_watch.png'
     },
     {
       'title': AppStrings.categoriesPage.cans,
+      'value': 'earphone',
       'iconPath': 'assets/icon/icon_earphone.png'
     },
     {
       'title': AppStrings.categoriesPage.charger,
+      'value': 'charger',
       'iconPath': 'assets/icon/icon_charger.png'
     },
     {
       'title': AppStrings.categoriesPage.phoneStands,
+      'value': 'phone_stand',
       'iconPath': 'assets/icon/icon_phone_stand.png'
     },
     {
       'title': AppStrings.categoriesPage.airPods,
+      'value': 'airpods',
       'iconPath': 'assets/icon/icon_airpods.png'
     },
   ];
@@ -64,6 +69,7 @@ Widget buildCategoriesSection({
               context: context,
               title: category['title']!,
               iconPath: category['iconPath']!,
+              value: category['value']!,
             );
           },
         ),
@@ -75,6 +81,7 @@ Widget buildCategoriesSection({
 Widget buildCategoryItem({
   required BuildContext context,
   required String title,
+  required String value,
   required String iconPath,
 }) {
   return GestureDetector(
@@ -82,7 +89,7 @@ Widget buildCategoryItem({
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProductByCategoriesName(categoryName: title),
+          builder: (context) => ProductByCategory(categoryName: value),
         ),
       );
     },
