@@ -29,7 +29,7 @@ class AppTextStyles {
       fontSize: 16,
       height: 0.8,
       fontWeight: FontWeight.w700,
-      color: bodyColor,
+      color: secondaryColor,
     );
   }
 
@@ -56,9 +56,9 @@ class AppTextStyles {
   // placeholder
   static TextStyle getPlaceholderSize() {
     return GoogleFonts.nunito(
-      fontSize: 10,
-      height: 1,
-      fontWeight: FontWeight.w400,
+      fontSize: 16,
+      height: 1.2,
+      fontWeight: FontWeight.w500,
       color: placeholderColor,
     );
   }

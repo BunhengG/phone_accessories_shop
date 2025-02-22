@@ -10,8 +10,8 @@ const placeholderColor = Color(0xFFA8B2D3);
 
 const btnBackgroundGradient = LinearGradient(
   colors: [primaryColor, Color(0xFFFF9A68)],
-  begin: Alignment.topCenter,
-  end: Alignment.bottomCenter,
+  end: Alignment.topCenter,
+  begin: Alignment.bottomCenter,
 );
 
 const compBackgroundGradient = LinearGradient(
