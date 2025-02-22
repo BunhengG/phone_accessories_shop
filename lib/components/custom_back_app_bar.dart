@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:phone_accessories_shop/theme/colors_theme.dart';
 import 'package:phone_accessories_shop/theme/text_theme.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomBackAppBar extends StatelessWidget {
   final String title;
-  const CustomAppBar({super.key, required this.title});
+  const CustomBackAppBar({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class CustomAppBar extends StatelessWidget {
       ),
       child: AppBar(
         centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: backgroundColor,
         elevation: 0,
         scrolledUnderElevation: 0,
         leading: Padding(
@@ -24,11 +25,11 @@ class CustomAppBar extends StatelessWidget {
               Navigator.pop(context);
             },
             child: CircleAvatar(
-              backgroundColor: Theme.of(context).colorScheme.onPrimary,
+              backgroundColor: thirdColor,
               radius: 24,
               child: Image.asset(
                 'assets/icon/arrowleft.png',
-                scale: 4,
+                scale: 2,
               ),
             ),
           ),

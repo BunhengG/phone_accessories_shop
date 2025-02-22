@@ -3,6 +3,7 @@ import 'package:phone_accessories_shop/theme/colors_theme.dart';
 import '../../../core/config/AppStrings.dart';
 import '../../../core/config/Category.dart';
 import '../../../theme/text_theme.dart';
+import '../../CategoryScreen/category_screen.dart';
 import '../../ProductByCategoriesScreen/product_by_categories_name.dart';
 
 Widget buildCategoriesSection({
@@ -22,7 +23,14 @@ Widget buildCategoriesSection({
               style: textStyle ?? AppTextStyles.getTitleSize(),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CategoriesScreen(),
+                  ),
+                );
+              },
               child: Text(
                 AppStrings.homePage.seeAll,
                 style: AppTextStyles.getSubtitleSize().copyWith(fontSize: 18),

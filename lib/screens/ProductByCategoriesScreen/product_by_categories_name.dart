@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_accessories_shop/theme/colors_theme.dart';
 import 'package:phone_accessories_shop/theme/text_theme.dart';
 
+import '../../components/custom_Product.dart';
+import '../../components/custom_back_app_bar.dart';
 import '../../data/models/product_model.dart';
 import '../../logic/productByCategoryBloc/bloc/product_by_category_bloc.dart';
 import '../../logic/productByCategoryBloc/bloc/product_by_category_event.dart';
@@ -16,9 +18,14 @@ class ProductByCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(categoryName),
-        backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor,
+      // appBar: AppBar(
+      //   title: Text(categoryName),
+      //   backgroundColor: backgroundColor,
+      // ),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(90),
+        child: CustomBackAppBar(title: ''),
       ),
       body: BlocProvider(
         create: (context) =>
@@ -45,6 +52,8 @@ class ProductByCategory extends StatelessWidget {
 
               return GridView.builder(
                 padding: const EdgeInsets.all(16),
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
@@ -55,27 +64,26 @@ class ProductByCategory extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final ProductModel product = state.products[index];
 
-                  return Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Image.network(product.mainImage,
-                              fit: BoxFit.cover),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            product.title,
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.getSubtitleSize(),
+                  return Stack(
+                    children: [
+                      CustomProductItem(
+                        product: product.title,
+                        mainImage: product.mainImage,
+                        title: product.title,
+                        price: product.price,
+                      ),
+                      Positioned(
+                        right: 8,
+                        top: 8,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Image.asset(
+                            'assets/icon/icon_heart.png',
+                            width: 20,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 },
               );
