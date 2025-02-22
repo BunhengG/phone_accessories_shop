@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:phone_accessories_shop/theme/colors_theme.dart';
 import '../../../core/config/AppStrings.dart';
+import '../../../core/config/Category.dart';
 import '../../../theme/text_theme.dart';
 import '../../ProductByCategoriesScreen/product_by_categories_name.dart';
 
@@ -7,34 +9,6 @@ Widget buildCategoriesSection({
   required BuildContext context,
   TextStyle? textStyle,
 }) {
-  final List<Map<String, String>> categories = [
-    {
-      'title': AppStrings.categoriesPage.watch,
-      'value': 'watch',
-      'iconPath': 'assets/icon/icon_apple_watch.png'
-    },
-    {
-      'title': AppStrings.categoriesPage.cans,
-      'value': 'earphone',
-      'iconPath': 'assets/icon/icon_earphone.png'
-    },
-    {
-      'title': AppStrings.categoriesPage.charger,
-      'value': 'charger',
-      'iconPath': 'assets/icon/icon_charger.png'
-    },
-    {
-      'title': AppStrings.categoriesPage.phoneStands,
-      'value': 'phone_stand',
-      'iconPath': 'assets/icon/icon_phone_stand.png'
-    },
-    {
-      'title': AppStrings.categoriesPage.airPods,
-      'value': 'airpods',
-      'iconPath': 'assets/icon/icon_airpods.png'
-    },
-  ];
-
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -51,7 +25,7 @@ Widget buildCategoriesSection({
               onPressed: () {},
               child: Text(
                 AppStrings.homePage.seeAll,
-                style: AppTextStyles.getSubtitleSize(),
+                style: AppTextStyles.getSubtitleSize().copyWith(fontSize: 18),
               ),
             ),
           ],
@@ -60,6 +34,8 @@ Widget buildCategoriesSection({
       SizedBox(
         height: 120,
         child: ListView.builder(
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.only(left: 16.0),
           itemCount: categories.length,
@@ -94,18 +70,28 @@ Widget buildCategoryItem({
       );
     },
     child: Container(
-      margin: const EdgeInsets.only(right: 8.0),
+      margin: const EdgeInsets.only(right: 12.0),
       child: Column(
         children: [
-          Image.asset(
-            iconPath,
-            width: 60,
-            height: 60,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100.0),
+              gradient: compBackgroundGradient,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(
+                iconPath,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
           Text(
             title,
-            style: AppTextStyles.getSIMISubtitleSize(),
+            style: AppTextStyles.getSubtitleSize(),
           ),
         ],
       ),

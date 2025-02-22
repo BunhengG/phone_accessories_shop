@@ -24,8 +24,8 @@ class HomeScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (state is HomeLoaded) {
             return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16.0),
                   // Search
@@ -34,6 +34,7 @@ class HomeScreen extends StatelessWidget {
 
                   // Category
                   buildCategoriesSection(context: context),
+                  const SizedBox(height: 16.0),
 
                   // Top Selling
                   buildProductSection(
@@ -53,6 +54,7 @@ class HomeScreen extends StatelessWidget {
                     textStyle: AppTextStyles.getTitleSize()
                         .copyWith(color: primaryColor),
                   ),
+                  const SizedBox(height: 16.0),
                 ],
               ),
             );

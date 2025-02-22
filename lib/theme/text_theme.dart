@@ -19,7 +19,7 @@ class AppTextStyles {
       fontSize: 24,
       height: 0.85,
       fontWeight: FontWeight.w800,
-      color: titleColor,
+      color: secondaryColor,
     );
   }
 
@@ -27,7 +27,7 @@ class AppTextStyles {
   static TextStyle getSubtitleSize() {
     return GoogleFonts.nunito(
       fontSize: 16,
-      height: 0.8,
+      height: 1,
       fontWeight: FontWeight.w700,
       color: secondaryColor,
     );

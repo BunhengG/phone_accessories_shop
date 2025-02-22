@@ -12,7 +12,7 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundColor,
-      toolbarHeight: 90,
+      toolbarHeight: 80,
       elevation: 0,
       scrolledUnderElevation: 0,
       leadingWidth: 70,
@@ -96,5 +96,5 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(90);
+  Size get preferredSize => const Size.fromHeight(80);
 }

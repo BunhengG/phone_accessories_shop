@@ -16,6 +16,6 @@ const btnBackgroundGradient = LinearGradient(
 
 const compBackgroundGradient = LinearGradient(
   colors: [Color(0xFFBCDCFC), Color(0xFFEFF7FF)],
-  begin: Alignment.topCenter,
-  end: Alignment.bottomCenter,
+  end: Alignment.topCenter,
+  begin: Alignment.bottomCenter,
 );
