@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_accessories_shop/logic/singleproductBloc/bloc/singleproduct_bloc.dart';
 import 'package:phone_accessories_shop/screens/SplashScreen/splash_screen.dart';
 import 'core/api/api_service.dart';
 import 'data/repositories/product_repository.dart';
@@ -29,16 +30,18 @@ class MyApp extends StatelessWidget {
           // HomeBloc
           BlocProvider(
             create: (context) => HomeBloc(
-              ProductRepository(
-                apiService: ApiService(),
-              ),
-            )..add(
-                FetchProducts(),
-              ),
+              ProductRepository(apiService: ApiService()),
+            )..add(FetchProducts()),
           ),
           // ProductByCategoryBloc
           BlocProvider(
             create: (context) => ProductByCategoryBloc(
+              RepositoryProvider.of<ProductRepository>(context),
+            ),
+          ),
+          // SingleProductBloc
+          BlocProvider(
+            create: (context) => SingleProductBloc(
               RepositoryProvider.of<ProductRepository>(context),
             ),
           ),

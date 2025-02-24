@@ -9,4 +9,7 @@ class ApiConstants {
 
   // Product by Category
   static const String productByCategoryEndpoint = "$baseUrl/products/";
+
+  // Product by Id
+  static const String productByIdEndpoint = "$baseUrl/products/";
 }

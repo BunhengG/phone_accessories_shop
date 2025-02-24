@@ -51,7 +51,7 @@ class ProductRepository {
     }
   }
 
-  //! Fetch products by category
+  // Fetch products by category
   Future<List<ProductModel>> fetchProductsByCategory(String category) async {
     try {
       final String url = "${ApiConstants.productByCategoryEndpoint}$category";
@@ -71,6 +71,27 @@ class ProductRepository {
       }
     } catch (e) {
       throw Exception("Failed to fetch products for category $category: $e");
+    }
+  }
+
+  // Fetch product by Id (Single Product)
+  Future<ProductModel> fetchProduct(String type, String id) async {
+    try {
+      final String url = "${ApiConstants.productByIdEndpoint}$type/$id";
+      final response = await apiService.get(url);
+
+      if (response is Map<String, dynamic>) {
+        final data = response['data'] ?? response;
+        if (data != null) {
+          return ProductModel.fromJson(data);
+        } else {
+          throw Exception("No data found in response");
+        }
+      } else {
+        throw Exception("Invalid response format: ${response.runtimeType}");
+      }
+    } catch (e) {
+      throw Exception("Failed to fetch product with type $type and ID $id: $e");
     }
   }
 }

@@ -4,28 +4,35 @@ import 'package:phone_accessories_shop/theme/text_theme.dart';
 
 class CustomButton extends StatelessWidget {
   final String textButton;
-  final VoidCallback onPressed;
+  final VoidCallback onTapAction;
 
   const CustomButton({
     super.key,
     required this.textButton,
-    required this.onPressed,
+    required this.onTapAction,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: primaryColor,
-        padding: const EdgeInsets.symmetric(
-          vertical: 20.0,
-          horizontal: 24.0,
+    return GestureDetector(
+      onTap: onTapAction,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 22.0),
+        width: double.infinity,
+        height: 64.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          gradient: btnBackgroundGradient,
         ),
-      ),
-      child: Text(
-        textButton,
-        style: AppTextStyles.getSubtitleSize().copyWith(color: backgroundColor),
+        child: Text(
+          textAlign: TextAlign.center,
+          textButton,
+          style: AppTextStyles.getSubtitleSize().copyWith(
+            color: backgroundColor,
+            fontSize: 18,
+            height: 1.2,
+          ),
+        ),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/SingleProduct/single_product.dart';
+import '../screens/SingleProductScreen/single_product.dart';
 import '../theme/colors_theme.dart';
 import '../theme/text_theme.dart';
 

@@ -19,3 +19,9 @@ const compBackgroundGradient = LinearGradient(
   end: Alignment.topCenter,
   begin: Alignment.bottomCenter,
 );
+
+const compBackgroundGradientOption = LinearGradient(
+  colors: [Color(0xFFF7F7F7), Color(0xFFEFF7FF)],
+  end: Alignment.topCenter,
+  begin: Alignment.bottomCenter,
+);
