@@ -97,9 +97,14 @@ Widget buildCategoryItem({
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            title,
-            style: AppTextStyles.getSubtitleSize(),
+          SizedBox(
+            width: 80,
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.getSubtitleSize(),
+            ),
           ),
         ],
       ),
