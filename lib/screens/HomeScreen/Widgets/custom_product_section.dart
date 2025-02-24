@@ -59,6 +59,8 @@ Widget buildProductSection({
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: CustomProductItem(
+                      productId: product.id,
+                      type: product.type,
                       product: product.title,
                       mainImage: product.mainImage,
                       title: product.title,

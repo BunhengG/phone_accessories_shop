@@ -19,10 +19,6 @@ class ProductByCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      // appBar: AppBar(
-      //   title: Text(categoryName),
-      //   backgroundColor: backgroundColor,
-      // ),
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(90),
         child: CustomBackAppBar(title: ''),
@@ -67,6 +63,8 @@ class ProductByCategory extends StatelessWidget {
                   return Stack(
                     children: [
                       CustomProductItem(
+                        productId: product.id,
+                        type: product.type,
                         product: product.title,
                         mainImage: product.mainImage,
                         title: product.title,
