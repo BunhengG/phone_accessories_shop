@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_accessories_shop/core/config/AppStrings.dart';
 
+import '../../components/custom_back_app_bar.dart';
 import '../../components/custom_button.dart';
 import '../../data/models/product_model.dart';
 import '../../logic/helper/colors_option.dart';
@@ -29,7 +30,10 @@ class SingleProduct extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(title: const Text("Product Details")),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(90),
+        child: CustomBackAppBar(title: ''),
+      ),
       body: BlocBuilder<SingleProductBloc, SingleProductState>(
         builder: (context, state) {
           if (state is SingleProductLoading) {
@@ -72,22 +76,28 @@ class SingleProduct extends StatelessWidget {
         children: product.galleryImages.map((imageUrl) {
           return Container(
             margin: const EdgeInsets.only(left: 16.0),
-            width: 250,
+            width: 200,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
-              color: thirdColor,
+              borderRadius: BorderRadius.circular(8.0),
+              gradient: compBackgroundGradientOption,
             ),
             child: CachedNetworkImage(
               imageUrl: imageUrl,
-              width: 250,
+              width: 200,
               height: 280,
               fit: BoxFit.cover,
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(
-                  color: primaryColor,
+              placeholder: (context, url) => Center(
+                child: Image.asset(
+                  'assets/img/pd_placeholder.png',
+                  width: 200,
+                  height: 280,
                 ),
               ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              errorWidget: (context, url, error) => Image.asset(
+                'assets/img/error.png',
+                width: 200,
+                height: 280,
+              ),
             ),
           );
         }).toList(),
@@ -109,9 +119,9 @@ class SingleProduct extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             "\$${product.price}",
-            style: AppTextStyles.getTitleSize(),
+            style: AppTextStyles.getTitleSize().copyWith(color: primaryColor),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           Text(
             product.shortDescription,
             style: AppTextStyles.getSIMISubtitleSize(),

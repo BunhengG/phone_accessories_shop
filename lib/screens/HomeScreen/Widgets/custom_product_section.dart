@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../components/custom_Product.dart';
 import '../../../core/config/AppStrings.dart';
+import '../../../components/custom_favorite_icon.dart';
 import '../../../theme/text_theme.dart';
 import '../../SeeAllScreen/see_all_products_screen.dart';
 
@@ -55,7 +56,7 @@ Widget buildProductSection({
             return Stack(
               children: [
                 SizedBox(
-                  width: 180,
+                  width: 190,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: CustomProductItem(
@@ -68,13 +69,10 @@ Widget buildProductSection({
                     ),
                   ),
                 ),
-                Positioned(
+                const Positioned(
                   right: 8,
                   top: 8,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Image.asset('assets/icon/icon_heart.png', width: 20),
-                  ),
+                  child: FavoriteIcon(),
                 ),
               ],
             );

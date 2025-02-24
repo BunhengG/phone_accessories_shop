@@ -21,7 +21,8 @@ class HomeScreen extends StatelessWidget {
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is HomeLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: CircularProgressIndicator(color: primaryColor));
           } else if (state is HomeLoaded) {
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),

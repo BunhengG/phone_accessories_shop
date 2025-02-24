@@ -10,7 +10,7 @@ class CustomBackAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 16.0,
+        horizontal: 14.0,
         vertical: 8.0,
       ),
       child: AppBar(
@@ -18,19 +18,16 @@ class CustomBackAppBar extends StatelessWidget {
         backgroundColor: backgroundColor,
         elevation: 0,
         scrolledUnderElevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 5),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: CircleAvatar(
-              backgroundColor: thirdColor,
-              radius: 24,
-              child: Image.asset(
-                'assets/icon/arrowleft.png',
-                scale: 2,
-              ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: CircleAvatar(
+            backgroundColor: thirdColor,
+            radius: 28,
+            child: Image.asset(
+              'assets/icon/arrowleft.png',
+              scale: 1.2,
             ),
           ),
         ),
