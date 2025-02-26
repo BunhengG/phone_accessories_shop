@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_accessories_shop/logic/singleproductBloc/bloc/singleproduct_bloc.dart';
 import 'package:phone_accessories_shop/screens/SplashScreen/splash_screen.dart';
 import 'core/api/api_service.dart';
+import 'data/models/cart_item_database.dart';
 import 'data/repositories/product_repository.dart';
 import 'logic/homeBloc/bloc/home_bloc.dart';
 import 'logic/homeBloc/bloc/home_event.dart';
@@ -12,7 +13,9 @@ import 'screens/NotificationScreen/notification_screen.dart';
 import 'screens/ProfileScreen/profile_screen.dart';
 import 'screens/ReceiptScreen/receipt_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CartItemDatabase.initialize();
   runApp(const MyApp());
 }
 

@@ -5,6 +5,7 @@ import 'package:phone_accessories_shop/core/config/AppStrings.dart';
 
 import '../../components/custom_back_app_bar.dart';
 import '../../components/custom_button.dart';
+import '../../data/models/cart_item_database.dart';
 import '../../data/models/product_model.dart';
 import '../../logic/helper/colors_option.dart';
 import '../../logic/singleproductBloc/bloc/singleproduct_bloc.dart';
@@ -44,6 +45,7 @@ class SingleProduct extends StatelessWidget {
             final product = state.product;
             final availableColors = state.availableColors;
             final selectedColor = state.selectedColor;
+            final quantity = state.quantity;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +53,12 @@ class SingleProduct extends StatelessWidget {
                 _buildImageGallery(product),
                 const SizedBox(height: 16),
                 _buildProductDetails(
-                    product, context, availableColors, selectedColor),
+                  product,
+                  context,
+                  availableColors,
+                  selectedColor,
+                  quantity,
+                ),
               ],
             );
           }
@@ -62,6 +69,63 @@ class SingleProduct extends StatelessWidget {
 
           return const Center(child: Text("Error loading product"));
         },
+      ),
+    );
+  }
+
+  Widget _buildProductDetails(
+    ProductModel product,
+    BuildContext context,
+    List<String> availableColors,
+    String? selectedColor,
+    int quantity,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            product.title,
+            style: AppTextStyles.getSubtitleSize(),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            "\$${product.price}",
+            style: AppTextStyles.getTitleSize().copyWith(color: primaryColor),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            product.shortDescription,
+            style: AppTextStyles.getSIMISubtitleSize(),
+          ),
+          const SizedBox(height: 16),
+
+          // Color Selection
+          _buildColorSelector(product, context),
+
+          const SizedBox(height: 8),
+
+          // Quantity Selection
+          _buildQuantitySelector(context),
+
+          const SizedBox(height: 25),
+          CustomButton(
+            textButton: 'Add To Cart',
+            onTapAction: () async {
+              await CartItemDatabase().addItem(
+                product.galleryImages.first,
+                product.title,
+                product.price,
+                selectedColor ?? "Default",
+                quantity,
+              );
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Item added to cart!")),
+              );
+            },
+          )
+        ],
       ),
     );
   }
@@ -101,47 +165,6 @@ class SingleProduct extends StatelessWidget {
             ),
           );
         }).toList(),
-      ),
-    );
-  }
-
-  Widget _buildProductDetails(ProductModel product, BuildContext context,
-      List<String> availableColors, String? selectedColor) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            product.title,
-            style: AppTextStyles.getSubtitleSize(),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            "\$${product.price}",
-            style: AppTextStyles.getTitleSize().copyWith(color: primaryColor),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            product.shortDescription,
-            style: AppTextStyles.getSIMISubtitleSize(),
-          ),
-          const SizedBox(height: 16),
-
-          // Color Selection
-          _buildColorSelector(product, context),
-
-          const SizedBox(height: 8),
-
-          // Quantity Selection
-          _buildQuantitySelector(context),
-
-          const SizedBox(height: 25),
-          CustomButton(
-            textButton: 'Add To Cart',
-            onTapAction: () {},
-          )
-        ],
       ),
     );
   }
