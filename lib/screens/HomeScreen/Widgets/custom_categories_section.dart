@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phone_accessories_shop/theme/colors_theme.dart';
-import '../../../core/config/AppStrings.dart';
-import '../../../core/config/Category.dart';
+import '../../../theme/config/AppStrings.dart';
+import '../../../theme/config/Category.dart';
 import '../../../theme/text_theme.dart';
 import '../../CategoryScreen/category_screen.dart';
 import '../../ProductByCategoriesScreen/product_by_categories_name.dart';

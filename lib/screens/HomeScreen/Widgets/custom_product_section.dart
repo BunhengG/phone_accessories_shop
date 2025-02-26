@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../components/custom_Product.dart';
-import '../../../core/config/AppStrings.dart';
+import '../../../theme/config/AppStrings.dart';
 import '../../../components/custom_favorite_icon.dart';
 import '../../../theme/text_theme.dart';
 import '../../SeeAllScreen/see_all_products_screen.dart';

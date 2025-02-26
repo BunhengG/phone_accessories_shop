@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_accessories_shop/theme/colors_theme.dart';
 import '../../components/custom_app_bar.dart';
-import '../../core/config/AppStrings.dart';
+import '../../theme/config/AppStrings.dart';
 import '../../logic/homeBloc/bloc/home_bloc.dart';
 import '../../logic/homeBloc/bloc/home_state.dart';
 import '../../theme/text_theme.dart';

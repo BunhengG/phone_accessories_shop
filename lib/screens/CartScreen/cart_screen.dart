@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_accessories_shop/components/custom_button.dart';
-import 'package:phone_accessories_shop/core/config/AppStrings.dart';
+import 'package:phone_accessories_shop/theme/config/AppStrings.dart';
 import 'package:phone_accessories_shop/theme/colors_theme.dart';
 import 'package:phone_accessories_shop/theme/text_theme.dart';
 import '../../components/custom_back_app_bar.dart';

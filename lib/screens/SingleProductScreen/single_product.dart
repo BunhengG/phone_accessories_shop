@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:phone_accessories_shop/core/config/AppStrings.dart';
+import 'package:phone_accessories_shop/theme/config/AppStrings.dart';
 
 import '../../components/custom_back_app_bar.dart';
 import '../../components/custom_button.dart';
 import '../../data/models/cart_item_database.dart';
 import '../../data/models/product_model.dart';
-import '../../logic/helper/colors_option.dart';
+import '../../helper/colors_option.dart';
 import '../../logic/singleproductBloc/bloc/singleproduct_bloc.dart';
 import '../../logic/singleproductBloc/bloc/singleproduct_event.dart';
 import '../../logic/singleproductBloc/bloc/singleproduct_state.dart';

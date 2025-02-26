@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phone_accessories_shop/core/config/AppStrings.dart';
+import 'package:phone_accessories_shop/theme/config/AppStrings.dart';
 import 'package:phone_accessories_shop/theme/colors_theme.dart';
 import 'package:phone_accessories_shop/theme/text_theme.dart';
 
