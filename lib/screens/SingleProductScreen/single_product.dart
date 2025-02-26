@@ -121,7 +121,12 @@ class SingleProduct extends StatelessWidget {
                 quantity,
               );
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Item added to cart!")),
+                const SnackBar(
+                    backgroundColor: secondaryColor,
+                    content: Text(
+                      "Item added to cart!",
+                      style: TextStyle(color: backgroundColor),
+                    )),
               );
             },
           )

@@ -81,7 +81,7 @@ class _CartScreenState extends State<CartScreen> {
                       _buildSummaryRow("Subtotal", subtotal),
                       _buildSummaryRow("Shipping Cost", shippingCost),
                       _buildSummaryRow("Tax", tax),
-                      _buildSummaryRow("Total", total, isBold: true),
+                      _buildSummaryRow("Total", total),
                       const SizedBox(height: 20),
 
                       // Checkout Button
@@ -106,7 +106,11 @@ class _CartScreenState extends State<CartScreen> {
           await deleteAllItems();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text("All items removed from cart!"),
+              backgroundColor: Colors.green,
+              content: Text(
+                "All items removed from cart!",
+                style: TextStyle(color: backgroundColor),
+              ),
             ),
           );
         },
@@ -127,90 +131,26 @@ class _CartScreenState extends State<CartScreen> {
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               color: Colors.red,
-              child: const Icon(Icons.delete, color: Colors.white),
+              child: const Icon(Icons.delete, color: backgroundColor),
             ),
             onDismissed: (direction) async {
               await deleteItem(item.id);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text("Item removed from cart!"),
+                  backgroundColor: Colors.green,
+                  content: Text(
+                    "Item removed from cart!",
+                    style: TextStyle(color: backgroundColor),
+                  ),
                 ),
               );
             },
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 8.0),
-              padding: const EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 16,
-              ),
-              color: thirdColor,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: item.mainImage,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Center(
-                      child: Image.asset(
-                        'assets/img/pd_placeholder.png',
-                        width: 45,
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Image.asset(
-                      'assets/img/error.png',
-                      width: 45,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              item.title,
-                              style: AppTextStyles.getSubtitleSize()
-                                  .copyWith(color: bodyColor),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text("\$${item.price}",
-                                style: AppTextStyles.getSubtitleSize()),
-                          ],
-                        ),
-                        const SizedBox(height: 12.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            RichText(
-                              text: TextSpan(
-                                style: AppTextStyles.getSIMISubtitleSize()
-                                    .copyWith(color: bodyColor),
-                                children: [
-                                  TextSpan(
-                                      text: '${AppStrings.cartPage.color}: '),
-                                  TextSpan(
-                                    text: item.color,
-                                    style: AppTextStyles.getSubtitleSize()
-                                        .copyWith(fontSize: 14),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              'x${item.quantity.toString()}',
-                              style: AppTextStyles.getSIMISubtitleSize()
-                                  .copyWith(color: primaryColor),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            child: _buildItems(
+              item.mainImage,
+              item.title,
+              item.price.toString(),
+              item.color,
+              item.quantity.toString(),
             ),
           );
         },
@@ -218,7 +158,89 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildSummaryRow(String label, double amount, {bool isBold = false}) {
+  Widget _buildItems(
+    String image,
+    String title,
+    String price,
+    String color,
+    String quantity,
+  ) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.symmetric(
+        vertical: 12,
+        horizontal: 16,
+      ),
+      color: thirdColor,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CachedNetworkImage(
+            imageUrl: image,
+            width: 80,
+            height: 80,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => Center(
+              child: Image.asset(
+                'assets/img/pd_placeholder.png',
+                width: 45,
+              ),
+            ),
+            errorWidget: (context, url, error) => Image.asset(
+              'assets/img/error.png',
+              width: 45,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      title,
+                      style: AppTextStyles.getSubtitleSize()
+                          .copyWith(color: bodyColor),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text("\$$price", style: AppTextStyles.getSubtitleSize()),
+                  ],
+                ),
+                const SizedBox(height: 12.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        style: AppTextStyles.getSIMISubtitleSize()
+                            .copyWith(color: bodyColor),
+                        children: [
+                          TextSpan(text: '${AppStrings.cartPage.color}: '),
+                          TextSpan(
+                            text: color,
+                            style: AppTextStyles.getSubtitleSize()
+                                .copyWith(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      'x${quantity.toString()}',
+                      style: AppTextStyles.getSIMISubtitleSize()
+                          .copyWith(color: primaryColor),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSummaryRow(String label, double amount) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
