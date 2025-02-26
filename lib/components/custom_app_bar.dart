@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_accessories_shop/theme/config/AppStrings.dart';
 import 'package:phone_accessories_shop/theme/colors_theme.dart';
@@ -29,14 +30,23 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
             child: CircleAvatar(
-              backgroundColor: Theme.of(context).colorScheme.surface,
+              backgroundColor: backgroundColor,
               radius: 28,
               child: ClipOval(
-                child: Image.network(
-                  'https://avatar.iran.liara.run/public/30',
+                child: CachedNetworkImage(
+                  imageUrl: 'https://avatar.iran.liara.run/public/30',
                   width: 48,
-                  height: 48,
                   fit: BoxFit.cover,
+                  placeholder: (context, url) => Center(
+                    child: Image.asset(
+                      'assets/img/pd_placeholder.png',
+                      width: 150,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    'assets/img/error.png',
+                    width: 150,
+                  ),
                 ),
               ),
             ),
@@ -83,11 +93,7 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 );
               },
-              child: Image.asset(
-                'assets/icon/icon_cart.png',
-                width: 24,
-                height: 24,
-              ),
+              child: const CartIcon(iconPath: 'assets/icon/icon_cart.png'),
             ),
           ),
         )
@@ -97,4 +103,32 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(80);
+}
+
+class CartIcon extends StatefulWidget {
+  final String iconPath;
+
+  const CartIcon({
+    super.key,
+    required this.iconPath,
+  });
+
+  @override
+  State<CartIcon> createState() => _CartIconState();
+}
+
+class _CartIconState extends State<CartIcon> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      widget.iconPath,
+      width: 24,
+      height: 24,
+    );
+  }
 }
