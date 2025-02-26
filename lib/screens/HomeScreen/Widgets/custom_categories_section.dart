@@ -68,46 +68,79 @@ Widget buildCategoryItem({
   required String value,
   required String iconPath,
 }) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ProductByCategory(categoryName: value),
-        ),
-      );
-    },
-    child: Container(
-      margin: const EdgeInsets.only(right: 12.0),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100.0),
-              gradient: compBackgroundGradient,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                iconPath,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
+  return CategoryItem(
+    title: title,
+    value: value,
+    iconPath: iconPath,
+  );
+}
+
+class CategoryItem extends StatefulWidget {
+  final String title;
+  final String value;
+  final String iconPath;
+
+  const CategoryItem({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.iconPath,
+  });
+
+  @override
+  _CategoryItemState createState() => _CategoryItemState();
+}
+
+class _CategoryItemState extends State<CategoryItem> {
+  late Image _image;
+
+  @override
+  void initState() {
+    super.initState();
+    // Load the image once in initState
+    _image = Image.asset(widget.iconPath);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductByCategory(categoryName: widget.value),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right: 12.0),
+        child: Column(
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100.0),
+                gradient: compBackgroundGradient,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _image,
               ),
             ),
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: 80,
-            child: Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.getSubtitleSize(),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: 80,
+              child: Text(
+                widget.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTextStyles.getSubtitleSize(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
