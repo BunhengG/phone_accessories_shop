@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_accessories_shop/components/custom_button.dart';
 import 'package:phone_accessories_shop/theme/colors_theme.dart';
 
 import '../../components/custom_back_app_bar.dart';
 import '../../theme/config/AppStrings.dart';
 import '../../theme/text_theme.dart';
+import '../PaymentMethod/PaymentMethodCubit.dart';
 import '../PaymentMethod/payment_method.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -57,12 +59,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   'Payment Method',
                   selectedPayment,
                   () async {
+                    // Pass the selectedPayment as initial value
                     final paymentMethod = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const PaymentMethodScreen(),
+                        builder: (context) => BlocProvider<PaymentMethodCubit>(
+                          create: (context) =>
+                              PaymentMethodCubit(selectedPayment),
+                          child: PaymentMethodScreen(),
+                        ),
                       ),
                     );
+
                     if (paymentMethod != null) {
                       setState(() {
                         selectedPayment = paymentMethod;

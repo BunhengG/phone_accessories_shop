@@ -12,6 +12,7 @@ import 'logic/homeBloc/bloc/home_event.dart';
 import 'logic/productByCategoryBloc/bloc/product_by_category_bloc.dart';
 import 'screens/HomeScreen/home_screen.dart';
 import 'screens/NotificationScreen/notification_screen.dart';
+import 'screens/PaymentMethod/PaymentMethodCubit.dart';
 import 'screens/ProfileScreen/profile_screen.dart';
 import 'screens/ReceiptScreen/receipt_screen.dart';
 
@@ -55,7 +56,12 @@ class MyApp extends StatelessWidget {
           // CartBloc
           BlocProvider<CartBloc>(
             create: (context) => CartBloc()..add(LoadCartItems()),
-          )
+          ),
+
+          // PaymentMethodCubit
+          BlocProvider<PaymentMethodCubit>(
+            create: (context) => PaymentMethodCubit('Cash On Delivery'),
+          ),
         ],
         child: MaterialApp(
           title: 'Phone Accessories',
