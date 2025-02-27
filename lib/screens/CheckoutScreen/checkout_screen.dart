@@ -6,6 +6,7 @@ import 'package:phone_accessories_shop/theme/colors_theme.dart';
 import '../../components/custom_back_app_bar.dart';
 import '../../theme/config/AppStrings.dart';
 import '../../theme/text_theme.dart';
+import '../ChooseLocation/location.dart';
 import '../PaymentMethod/PaymentMethodCubit.dart';
 import '../PaymentMethod/payment_method.dart';
 
@@ -52,7 +53,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 _buildOption(
                   'Shipping Address',
                   '7 Makara St, Krong Siem Reap...',
-                  () {},
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SelectLocationScreen(),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 16),
                 _buildOption(

@@ -45,6 +45,10 @@ dependencies:
   isar_flutter_libs: ^3.1.0+1
   path_provider: ^2.1.5
   draggable_bottom_sheet: ^1.0.2
+
+  #map
+  geolocator: 
+  google_maps_flutter: ^2.9.0
   
 
 dev_dependencies:
