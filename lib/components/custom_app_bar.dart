@@ -4,6 +4,7 @@ import 'package:phone_accessories_shop/theme/config/AppStrings.dart';
 import 'package:phone_accessories_shop/theme/colors_theme.dart';
 import 'package:phone_accessories_shop/theme/text_theme.dart';
 
+import '../data/models/cart_item_database.dart';
 import '../screens/CartScreen/cart_screen.dart';
 
 class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -79,9 +80,9 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Container(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
+              borderRadius: BorderRadius.circular(100),
               gradient: btnBackgroundGradient,
             ),
             child: InkWell(
@@ -118,17 +119,90 @@ class CartIcon extends StatefulWidget {
 }
 
 class _CartIconState extends State<CartIcon> {
+  late Stream<int> cartItemCountStream;
+
   @override
   void initState() {
     super.initState();
+    cartItemCountStream = CartItemDatabase().cartItemCountStream();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      widget.iconPath,
-      width: 24,
-      height: 24,
+    return StreamBuilder<int>(
+      stream: cartItemCountStream,
+      builder: (context, snapshot) {
+        int itemCount = snapshot.data ?? 0;
+
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Image.asset(
+              widget.iconPath,
+              width: 28,
+              height: 28,
+            ),
+            if (itemCount > 0)
+              Positioned(
+                right: -12,
+                top: -14,
+                child: Container(
+                  width: 14,
+                  height: 14,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFE50046),
+                    shape: BoxShape.circle,
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 20,
+                    minHeight: 20,
+                  ),
+                  child: Center(
+                    child: Text(
+                      itemCount.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }
+
+
+
+
+// class CartIcon extends StatefulWidget {
+//   final String iconPath;
+
+//   const CartIcon({
+//     super.key,
+//     required this.iconPath,
+//   });
+
+//   @override
+//   State<CartIcon> createState() => _CartIconState();
+// }
+
+// class _CartIconState extends State<CartIcon> {
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Image.asset(
+//       widget.iconPath,
+//       width: 24,
+//       height: 24,
+//     );
+//   }
+// }

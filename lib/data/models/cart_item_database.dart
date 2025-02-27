@@ -70,4 +70,20 @@ class CartItemDatabase {
     await fetchCartItems();
     print('🗑️ All CartItems deleted');
   }
+
+  Stream<int> cartItemCountStream() async* {
+    final isar = Isar.getInstance();
+    if (isar == null) {
+      yield 0; // Emit 0 if Isar is not initialized
+      return;
+    }
+
+    // Emit the initial cart item count
+    yield await isar.cartItems.count();
+
+    // Listen for changes in the cart collection
+    yield* isar.cartItems.watchLazy().asyncMap((_) async {
+      return await isar.cartItems.count();
+    });
+  }
 }
