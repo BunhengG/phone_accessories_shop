@@ -10,6 +10,7 @@ import '../../data/models/cart_item_model.dart';
 import '../../logic/cartBloc/bloc/cart_bloc.dart';
 import '../../logic/cartBloc/bloc/cart_event.dart';
 import '../../logic/cartBloc/bloc/cart_state.dart';
+import '../CheckoutScreen/checkout_screen.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -68,7 +69,9 @@ class CartScreen extends StatelessWidget {
                 _buildItemList(context, state.cartItems),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 25.0),
+                    horizontal: 16.0,
+                    vertical: 25.0,
+                  ),
                   child: Column(
                     children: [
                       _buildSummaryRow(AppStrings.cartPage.subtotal, subtotal),
@@ -77,7 +80,22 @@ class CartScreen extends StatelessWidget {
                       _buildSummaryRow(AppStrings.cartPage.tax, tax),
                       _buildSummaryRow(AppStrings.cartPage.total, total),
                       const SizedBox(height: 20),
-                      CustomButton(textButton: 'Checkout', onTapAction: () {}),
+                      CustomButton(
+                        textButton: 'Checkout',
+                        onTapAction: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CheckoutScreen(
+                                subtotal: subtotal,
+                                shippingCost: shippingCost,
+                                tax: tax,
+                                total: total,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
