@@ -5,10 +5,42 @@ import 'package:phone_accessories_shop/theme/colors_theme.dart';
 import 'package:phone_accessories_shop/theme/text_theme.dart';
 
 import '../data/models/cart_item_database.dart';
+import '../data/models/location_model.dart';
 import '../screens/CartScreen/cart_screen.dart';
+import '../screens/ChooseLocation/location.dart';
 
-class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomHomeAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomHomeAppBar({super.key});
+
+  @override
+  State<CustomHomeAppBar> createState() => _CustomHomeAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(80);
+}
+
+class _CustomHomeAppBarState extends State<CustomHomeAppBar> {
+  String currentAddress = 'Loading...';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAddressFromDatabase();
+  }
+
+  // Method to load address from the database
+  Future<void> _loadAddressFromDatabase() async {
+    List<Location> locations = await CartItemDatabase().fetchLocation();
+    if (locations.isNotEmpty) {
+      setState(() {
+        currentAddress = locations.last.address;
+      });
+    } else {
+      setState(() {
+        currentAddress = 'No address available';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +49,31 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: 80,
       elevation: 0,
       scrolledUnderElevation: 0,
-      leadingWidth: 70,
+      leadingWidth: 65,
+      automaticallyImplyLeading: false,
+      titleSpacing: 2,
       leading: Padding(
         padding: const EdgeInsets.only(left: 16),
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SelectLocationScreen(),
+              ),
+            );
+          },
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
                 color: primaryColor,
-                width: 4.0,
+                width: 3.0,
               ),
             ),
             child: CircleAvatar(
               backgroundColor: backgroundColor,
-              radius: 28,
+              radius: 50,
               child: ClipOval(
                 child: CachedNetworkImage(
                   imageUrl: 'https://avatar.iran.liara.run/public/30',
@@ -41,12 +82,12 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   placeholder: (context, url) => Center(
                     child: Image.asset(
                       'assets/img/pd_placeholder.png',
-                      width: 150,
+                      width: 100,
                     ),
                   ),
                   errorWidget: (context, url, error) => Image.asset(
                     'assets/img/error.png',
-                    width: 150,
+                    width: 100,
                   ),
                 ),
               ),
@@ -62,14 +103,14 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${AppStrings.homePage.helloUser} Bunheng!',
-                  style: AppTextStyles.getTitleSize()
+                  ' ${AppStrings.homePage.helloUser} Bunheng!',
+                  style: AppTextStyles.getSubtitleSize()
                       .copyWith(color: primaryColor),
                 ),
-                const SizedBox(height: 5.0),
+                const SizedBox(height: 4.0),
                 Text(
-                  '${AppStrings.homePage.currentAddress} SiemReap >',
-                  style: AppTextStyles.getSIMISubtitleSize(),
+                  '${AppStrings.homePage.currentAddress}$currentAddress',
+                  style: AppTextStyles.getBodySize().copyWith(height: 1.1),
                 ),
               ],
             ),
@@ -101,9 +142,6 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(80);
 }
 
 class CartIcon extends StatefulWidget {
@@ -175,34 +213,3 @@ class _CartIconState extends State<CartIcon> {
     );
   }
 }
-
-
-
-
-// class CartIcon extends StatefulWidget {
-//   final String iconPath;
-
-//   const CartIcon({
-//     super.key,
-//     required this.iconPath,
-//   });
-
-//   @override
-//   State<CartIcon> createState() => _CartIconState();
-// }
-
-// class _CartIconState extends State<CartIcon> {
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Image.asset(
-//       widget.iconPath,
-//       width: 24,
-//       height: 24,
-//     );
-//   }
-// }

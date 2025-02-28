@@ -4,6 +4,8 @@ import 'package:phone_accessories_shop/components/custom_button.dart';
 import 'package:phone_accessories_shop/theme/colors_theme.dart';
 
 import '../../components/custom_back_app_bar.dart';
+import '../../data/models/cart_item_database.dart';
+import '../../data/models/location_model.dart';
 import '../../theme/config/AppStrings.dart';
 import '../../theme/text_theme.dart';
 import '../ChooseLocation/location.dart';
@@ -31,6 +33,22 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String selectedAddress = '';
   String selectedPayment = 'Cash On Delivery';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAddressFromDatabase();
+  }
+
+  // Method to load the address from the database
+  Future<void> _loadAddressFromDatabase() async {
+    List<Location> locations = await CartItemDatabase().fetchLocation();
+    if (locations.isNotEmpty) {
+      setState(() {
+        selectedAddress = locations.last.address;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +94,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   'Payment Method',
                   selectedPayment,
                   () async {
-                    // Pass the selectedPayment as initial value
                     final paymentMethod = await Navigator.push(
                       context,
                       MaterialPageRoute(

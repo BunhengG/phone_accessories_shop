@@ -1,10 +1,11 @@
-// ! Update
+// ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:phone_accessories_shop/data/models/cart_item_database.dart';
 
 class SelectLocationScreen extends StatefulWidget {
   const SelectLocationScreen({super.key});
@@ -42,8 +43,6 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
 
       String address =
           await _getAddressFromLatLng(position.latitude, position.longitude);
-
-      // print("Current Location Address: $address");
 
       setState(() {
         _currentPosition = LatLng(position.latitude, position.longitude);
@@ -96,7 +95,6 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
       });
 
       // Only animate the camera if the controller is ready
-      // ignore: unnecessary_null_comparison
       if (_mapController != null) {
         _mapController.animateCamera(
           CameraUpdate.newLatLng(_currentPosition),
@@ -124,17 +122,30 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
     );
   }
 
-  void _confirmLocation() {
+  // Confirm the location and store it in the database
+  void _confirmLocation() async {
+    // Save location to database
+    await CartItemDatabase().addLocation(
+      _selectedAddress,
+      _currentPosition.latitude,
+      _currentPosition.longitude,
+    );
+
+    // Pop the selected location back to the previous screen
     Navigator.pop(context, {
       'lat': _currentPosition.latitude,
       'lng': _currentPosition.longitude,
       'address': _selectedAddress,
     });
+
+    // Optionally, show a success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Location saved successfully!")),
+    );
   }
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-    // ignore: unnecessary_null_comparison
     if (_currentPosition != null) {
       _mapController.animateCamera(
         CameraUpdate.newLatLngZoom(_currentPosition, 18),

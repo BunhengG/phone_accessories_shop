@@ -19,7 +19,7 @@ class AppStrings {
 class _HomePage {
   const _HomePage();
   final String helloUser = "Hello,";
-  final String currentAddress = "Current in";
+  final String currentAddress = "📍";
   final String search = "Search...";
   final String categories = "Categories";
   final String topSelling = "Top Selling";

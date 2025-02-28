@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'cart_item_model.dart';
+import 'location_model.dart';
 
 class CartItemDatabase {
   static late Isar isar;
@@ -11,7 +12,7 @@ class CartItemDatabase {
     final dir = await getApplicationCacheDirectory();
 
     isar = await Isar.open(
-      [CartItemSchema],
+      [CartItemSchema, LocationSchema],
       directory: dir.path,
     );
   }
@@ -85,5 +86,33 @@ class CartItemDatabase {
     yield* isar.cartItems.watchLazy().asyncMap((_) async {
       return await isar.cartItems.count();
     });
+  }
+
+  Future<void> addLocation(
+      String address, double latitude, double longitude) async {
+    // Create a new Location
+    final newLocation = Location()
+      ..address = address
+      ..latitude = latitude
+      ..longitude = longitude;
+
+    // save to database
+    await isar.writeTxn(() async {
+      final id = await isar.locations.put(newLocation);
+      print('✅ Locations added to database with ID: $id');
+    });
+  }
+
+  // Fetches locations from the database
+  Future<List<Location>> fetchLocation() async {
+    try {
+      // Get all locations from the database
+      final locations = await isar.locations.where().findAll();
+      print('✅ Fetched Locations: $locations');
+      return locations;
+    } catch (e) {
+      print('❌ Error fetching locations: $e');
+      return [];
+    }
   }
 }
