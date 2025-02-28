@@ -9,21 +9,21 @@ Widget buildCustomRadio(bool isSelected) {
       shape: BoxShape.circle,
       color: isSelected ? primaryColor : placeholderColor,
     ),
-    width: 28,
-    height: 28,
+    width: 24,
+    height: 24,
     child: isSelected
         ? Center(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
                 border: Border.all(
-                  width: 4,
+                  width: 3,
                   color: backgroundColor,
                 ),
               ),
               child: const Icon(
                 Icons.circle,
-                size: 20,
+                size: 16,
                 color: Color(0xFF00FF9C),
               ),
             ),

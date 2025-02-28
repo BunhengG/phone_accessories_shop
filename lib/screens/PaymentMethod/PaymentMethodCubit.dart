@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PaymentMethodCubit extends Cubit<String> {
-  PaymentMethodCubit(String initialPaymentMethod) : super(initialPaymentMethod);
+  PaymentMethodCubit(super.initialPaymentMethod);
 
   void selectPaymentMethod(String paymentMethod) {
     emit(paymentMethod);
