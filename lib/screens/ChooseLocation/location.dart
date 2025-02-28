@@ -134,6 +134,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
+    // ignore: unnecessary_null_comparison
     if (_currentPosition != null) {
       _mapController.animateCamera(
         CameraUpdate.newLatLngZoom(_currentPosition, 18),
