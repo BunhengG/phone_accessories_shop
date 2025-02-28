@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   // Search
-                  buildSearchField(),
+                  buildSearchField(context),
                   const SizedBox(height: 8.0),
 
                   // Category

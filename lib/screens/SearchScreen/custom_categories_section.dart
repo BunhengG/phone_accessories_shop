@@ -1,63 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:phone_accessories_shop/theme/colors_theme.dart';
-import '../../../theme/config/AppStrings.dart';
 import '../../../theme/config/Category.dart';
 import '../../../theme/text_theme.dart';
-import '../../CategoryScreen/category_screen.dart';
-import '../../ProductByCategoriesScreen/product_by_categories_name.dart';
+import '../ProductByCategoriesScreen/product_by_categories_name.dart';
 
 Widget buildCategoriesSection({
   required BuildContext context,
   TextStyle? textStyle,
 }) {
-  return Column(
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 14.0, top: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              AppStrings.homePage.categories,
-              style: textStyle ?? AppTextStyles.getSubtitleSize(),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CategoriesScreen(),
-                  ),
-                );
-              },
-              child: Text(
-                AppStrings.homePage.seeAll,
-                style: AppTextStyles.getSubtitleSize().copyWith(fontSize: 16),
-              ),
-            ),
-          ],
-        ),
+  return Padding(
+    padding: const EdgeInsets.only(top: 16.0),
+    child: SizedBox(
+      height: 100,
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.only(left: 14.0),
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          final category = categories[index];
+          return buildCategoryItem(
+            context: context,
+            title: category['title']!,
+            iconPath: category['iconPath']!,
+            value: category['value']!,
+          );
+        },
       ),
-      SizedBox(
-        height: 100,
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(left: 14.0),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            final category = categories[index];
-            return buildCategoryItem(
-              context: context,
-              title: category['title']!,
-              iconPath: category['iconPath']!,
-              value: category['value']!,
-            );
-          },
-        ),
-      ),
-    ],
+    ),
   );
 }
 
@@ -120,7 +91,7 @@ class _CategoryItemState extends State<CategoryItem> {
               height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.0),
-                gradient: compBackgroundGradient,
+                color: thirdColor,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

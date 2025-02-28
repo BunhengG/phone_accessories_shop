@@ -25,10 +25,12 @@ class CustomBackAppBar extends StatelessWidget {
           },
           child: CircleAvatar(
             backgroundColor: thirdColor,
-            radius: 24,
-            child: Image.asset(
-              'assets/icon/arrowleft.png',
-              scale: 1.5,
+            radius: 28,
+            child: Center(
+              child: Image.asset(
+                'assets/icon/arrowleft.png',
+                width: 10,
+              ),
             ),
           ),
         ),

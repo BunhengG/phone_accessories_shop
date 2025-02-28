@@ -236,7 +236,7 @@ class SingleProduct extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 16),
                       // Content
                       Column(
                         children: product.colors.map(
@@ -249,8 +249,8 @@ class SingleProduct extends StatelessWidget {
                                 // Navigator.pop(context);
                               },
                               child: Container(
-                                padding: const EdgeInsets.all(20.0),
-                                margin: const EdgeInsets.only(bottom: 15.0),
+                                padding: const EdgeInsets.all(16.0),
+                                margin: const EdgeInsets.only(bottom: 8.0),
                                 decoration: BoxDecoration(
                                   gradient: context.select(
                                               (SingleProductBloc bloc) =>
@@ -325,6 +325,7 @@ class SingleProduct extends StatelessWidget {
                           },
                         ).toList(),
                       ),
+                      const SizedBox(height: 16),
                     ],
                   ),
                 );
@@ -359,7 +360,7 @@ class SingleProduct extends StatelessWidget {
                     const SizedBox(width: 25.0),
                     Image.asset(
                       'assets/icon/arrow_drop_down.png',
-                      width: 20,
+                      width: 16,
                     ),
                   ],
                 )
