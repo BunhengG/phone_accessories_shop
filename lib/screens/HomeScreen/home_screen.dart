@@ -22,20 +22,20 @@ class HomeScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is HomeLoading) {
             return const Center(
-                child: CircularProgressIndicator(color: primaryColor));
+              child: CircularProgressIndicator(color: primaryColor),
+            );
           } else if (state is HomeLoaded) {
             return SingleChildScrollView(
+              padding: const EdgeInsets.only(top: 8.0),
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  const SizedBox(height: 16.0),
                   // Search
                   buildSearchField(),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 8.0),
 
                   // Category
                   buildCategoriesSection(context: context),
-                  const SizedBox(height: 16.0),
 
                   // Top Selling
                   buildProductSection(
@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                     context: context,
                     isTopSelling: true,
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 8.0),
 
                   //  New In
                   buildProductSection(
@@ -60,9 +60,7 @@ class HomeScreen extends StatelessWidget {
               ),
             );
           } else if (state is HomeError) {
-            return Center(
-                child: Text(state.message,
-                    style: const TextStyle(color: Colors.red)));
+            return Center(child: Text(state.message));
           }
           return Container();
         },

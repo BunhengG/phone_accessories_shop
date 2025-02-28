@@ -14,16 +14,15 @@ Widget buildProductSection({
   TextStyle? textStyle,
 }) {
   return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.only(left: 14.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               title,
-              style: textStyle ?? AppTextStyles.getTitleSize(),
+              style: textStyle ?? AppTextStyles.getSubtitleSize(),
             ),
             TextButton(
               onPressed: () {
@@ -39,7 +38,7 @@ Widget buildProductSection({
               },
               child: Text(
                 AppStrings.homePage.seeAll,
-                style: AppTextStyles.getSubtitleSize().copyWith(fontSize: 18),
+                style: AppTextStyles.getSubtitleSize().copyWith(fontSize: 16),
               ),
             ),
           ],

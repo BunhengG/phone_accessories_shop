@@ -119,7 +119,7 @@ class _CustomHomeAppBarState extends State<CustomHomeAppBar> {
       ),
       actions: [
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(14.0),
           child: Container(
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
@@ -177,8 +177,8 @@ class _CartIconState extends State<CartIcon> {
           children: [
             Image.asset(
               widget.iconPath,
-              width: 28,
-              height: 28,
+              width: 24,
+              height: 24,
             ),
             if (itemCount > 0)
               Positioned(

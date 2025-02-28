@@ -11,16 +11,15 @@ Widget buildCategoriesSection({
   TextStyle? textStyle,
 }) {
   return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.only(left: 14.0, top: 8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               AppStrings.homePage.categories,
-              style: textStyle ?? AppTextStyles.getTitleSize(),
+              style: textStyle ?? AppTextStyles.getSubtitleSize(),
             ),
             TextButton(
               onPressed: () {
@@ -33,7 +32,7 @@ Widget buildCategoriesSection({
               },
               child: Text(
                 AppStrings.homePage.seeAll,
-                style: AppTextStyles.getSubtitleSize().copyWith(fontSize: 18),
+                style: AppTextStyles.getSubtitleSize().copyWith(fontSize: 16),
               ),
             ),
           ],
@@ -45,7 +44,7 @@ Widget buildCategoriesSection({
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(left: 16.0),
+          padding: const EdgeInsets.only(left: 14.0),
           itemCount: categories.length,
           itemBuilder: (context, index) {
             final category = categories[index];
@@ -97,7 +96,6 @@ class _CategoryItemState extends State<CategoryItem> {
   @override
   void initState() {
     super.initState();
-    // Load the image once in initState
     _image = Image.asset(widget.iconPath);
   }
 
@@ -113,12 +111,12 @@ class _CategoryItemState extends State<CategoryItem> {
         );
       },
       child: Container(
-        margin: const EdgeInsets.only(right: 12.0),
+        margin: const EdgeInsets.only(right: 8.0),
         child: Column(
           children: [
             Container(
-              width: 80,
-              height: 80,
+              width: 60,
+              height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.0),
                 gradient: compBackgroundGradient,
@@ -130,12 +128,14 @@ class _CategoryItemState extends State<CategoryItem> {
             ),
             const SizedBox(height: 8),
             SizedBox(
-              width: 80,
-              child: Text(
-                widget.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.getSubtitleSize(),
+              width: 60,
+              child: Center(
+                child: Text(
+                  widget.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextStyles.getSIMISubtitleSize(),
+                ),
               ),
             ),
           ],

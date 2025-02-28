@@ -56,7 +56,7 @@ class AppTextStyles {
   // placeholder
   static TextStyle getPlaceholderSize() {
     return GoogleFonts.nunito(
-      fontSize: 16,
+      fontSize: 14,
       height: 1.2,
       fontWeight: FontWeight.w500,
       color: placeholderColor,
