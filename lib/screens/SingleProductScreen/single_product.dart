@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:phone_accessories_shop/theme/config/AppStrings.dart';
 
 import '../../components/custom_back_app_bar.dart';
@@ -8,6 +9,7 @@ import '../../components/custom_button.dart';
 import '../../data/models/cart_item_database.dart';
 import '../../data/models/product_model.dart';
 import '../../helper/colors_option.dart';
+import '../../helper/snackbar_util.dart';
 import '../../logic/singleproductBloc/bloc/singleproduct_bloc.dart';
 import '../../logic/singleproductBloc/bloc/singleproduct_event.dart';
 import '../../logic/singleproductBloc/bloc/singleproduct_state.dart';
@@ -91,6 +93,20 @@ class SingleProduct extends StatelessWidget {
             product.title,
             style: AppTextStyles.getSubtitleSize(),
           ),
+          const SizedBox(height: 8),
+
+          // ⭐️ Rating Stars
+          RatingBarIndicator(
+            // rating: product.rating,
+            rating: 4.5,
+            itemBuilder: (context, index) => const Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            itemCount: 5,
+            itemSize: 20.0,
+          ),
+
           const SizedBox(height: 16),
           Text(
             "\$${product.price}",
@@ -104,7 +120,6 @@ class SingleProduct extends StatelessWidget {
 
           // Color Selection
           _buildColorSelector(product, context),
-
           const SizedBox(height: 8),
 
           // Quantity Selection
@@ -121,14 +136,7 @@ class SingleProduct extends StatelessWidget {
                 selectedColor ?? "Default",
                 quantity,
               );
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    backgroundColor: secondaryColor,
-                    content: Text(
-                      "Item added to cart!",
-                      style: TextStyle(color: backgroundColor),
-                    )),
-              );
+              showSuccessSnackbar(context, "Item added to cart!");
             },
           )
         ],
@@ -140,37 +148,40 @@ class SingleProduct extends StatelessWidget {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: product.galleryImages.map((imageUrl) {
-          return Container(
-            margin: const EdgeInsets.only(left: 8.0),
-            width: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              gradient: compBackgroundGradientOption,
-            ),
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
-              width: 160,
-              height: 200,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Center(
-                child: Image.asset(
-                  'assets/img/pd_placeholder.png',
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: product.galleryImages.map((imageUrl) {
+            return Container(
+              margin: const EdgeInsets.only(left: 8.0),
+              width: 180,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                gradient: compBackgroundGradientOption,
+              ),
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                width: 180,
+                height: 250,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Center(
+                  child: Image.asset(
+                    'assets/img/pd_placeholder.png',
+                    width: 160,
+                    height: 200,
+                  ),
+                ),
+                errorWidget: (context, url, error) => Image.asset(
+                  'assets/img/error.png',
                   width: 160,
                   height: 200,
                 ),
               ),
-              errorWidget: (context, url, error) => Image.asset(
-                'assets/img/error.png',
-                width: 160,
-                height: 200,
-              ),
-            ),
-          );
-        }).toList(),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

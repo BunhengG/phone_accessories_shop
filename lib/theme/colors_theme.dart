@@ -7,6 +7,7 @@ const backgroundColor = Color(0xFFFFFFFF);
 const titleColor = Color(0xFF08090D);
 const bodyColor = Color(0xFF999AA9);
 const placeholderColor = Color(0xFFA8B2D3);
+const successColor = Color(0xFF5CB338);
 
 const btnBackgroundGradient = LinearGradient(
   colors: [primaryColor, Color(0xFFFF9A68)],
