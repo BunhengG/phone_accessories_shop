@@ -11,9 +11,25 @@ import '../../logic/cartBloc/bloc/cart_bloc.dart';
 import '../../logic/cartBloc/bloc/cart_event.dart';
 import '../../logic/cartBloc/bloc/cart_state.dart';
 import '../CheckoutScreen/checkout_screen.dart';
+import 'Widgets/summaryRow.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.read<CartBloc>().add(LoadCartItems());
+  }
+
+  Future<void> _refreshCart(BuildContext context) async {
+    context.read<CartBloc>().add(LoadCartItems());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,88 +39,93 @@ class CartScreen extends StatelessWidget {
         preferredSize: const Size.fromHeight(90),
         child: CustomBackAppBar(title: AppStrings.cartPage.title),
       ),
-      body: BlocBuilder<CartBloc, CartState>(
-        builder: (context, state) {
-          // Initial load
-          if (state is CartInitial) {
-            Future.delayed(Duration.zero, () {
-              context.read<CartBloc>().add(LoadCartItems());
-            });
-          }
-
-          if (state is CartLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state is CartEmpty) {
-            return Center(
-              child: Text(
-                AppStrings.cartPage.emptyMessage,
-                style: AppTextStyles.getSubtitleSize(),
-              ),
-            );
-          }
-
-          if (state is CartError) {
-            return Center(
-              child:
-                  Text(state.message, style: AppTextStyles.getSubtitleSize()),
-            );
-          }
-
-          if (state is CartLoaded) {
-            double subtotal = 0.0;
-            for (var item in state.cartItems) {
-              subtotal += item.price * item.quantity;
+      body: RefreshIndicator(
+        color: primaryColor,
+        backgroundColor: backgroundColor,
+        onRefresh: () => _refreshCart(context),
+        child: BlocBuilder<CartBloc, CartState>(
+          builder: (context, state) {
+            // Initial load
+            if (state is CartInitial) {
+              Future.delayed(Duration.zero, () {
+                context.read<CartBloc>().add(LoadCartItems());
+              });
             }
 
-            double shippingCost = 2.50;
-            double tax = 0.07;
-            double total = subtotal + shippingCost + tax;
+            if (state is CartLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                _buildRemoveAll(context),
-                _buildItemList(context, state.cartItems),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 25.0,
-                  ),
-                  child: Column(
-                    children: [
-                      _buildSummaryRow(AppStrings.cartPage.subtotal, subtotal),
-                      _buildSummaryRow(
-                          AppStrings.cartPage.shippingCost, shippingCost),
-                      _buildSummaryRow(AppStrings.cartPage.tax, tax),
-                      _buildSummaryRow(AppStrings.cartPage.total, total),
-                      const SizedBox(height: 20),
-                      CustomButton(
-                        textButton: 'Checkout',
-                        onTapAction: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CheckoutScreen(
-                                subtotal: subtotal,
-                                shippingCost: shippingCost,
-                                tax: tax,
-                                total: total,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+            if (state is CartEmpty) {
+              return Center(
+                child: Text(
+                  AppStrings.cartPage.emptyMessage,
+                  style: AppTextStyles.getSubtitleSize(),
                 ),
-              ],
-            );
-          }
+              );
+            }
 
-          return const SizedBox();
-        },
+            if (state is CartError) {
+              return Center(
+                child:
+                    Text(state.message, style: AppTextStyles.getSubtitleSize()),
+              );
+            }
+
+            if (state is CartLoaded) {
+              double subtotal = 0.0;
+              for (var item in state.cartItems) {
+                subtotal += item.price * item.quantity;
+              }
+
+              double shippingCost = 2.50;
+              double tax = 0.07;
+              double total = subtotal + shippingCost + tax;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  _buildRemoveAll(context),
+                  _buildItemList(context, state.cartItems),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 25.0,
+                    ),
+                    child: Column(
+                      children: [
+                        buildSummaryRow(AppStrings.cartPage.subtotal, subtotal),
+                        buildSummaryRow(
+                            AppStrings.cartPage.shippingCost, shippingCost),
+                        buildSummaryRow(AppStrings.cartPage.tax, tax),
+                        buildSummaryRow(AppStrings.cartPage.total, total),
+                        const SizedBox(height: 20),
+                        CustomButton(
+                          textButton: 'Checkout',
+                          onTapAction: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CheckoutScreen(
+                                  subtotal: subtotal,
+                                  shippingCost: shippingCost,
+                                  tax: tax,
+                                  total: total,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            return const SizedBox();
+          },
+        ),
       ),
     );
   }
@@ -235,23 +256,6 @@ class CartScreen extends StatelessWidget {
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSummaryRow(String label, double amount) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: AppTextStyles.getSIMISubtitleSize(),
-          ),
-          Text("\$${amount.toStringAsFixed(2)}",
-              style: AppTextStyles.getSubtitleSize()),
         ],
       ),
     );
