@@ -67,7 +67,8 @@ class CustomProductItem extends StatelessWidget {
             ),
             Text(
               title,
-              style: AppTextStyles.getSubtitleSize().copyWith(color: bodyColor),
+              style: AppTextStyles.getSIMISubtitleSize()
+                  .copyWith(color: bodyColor),
             ),
             Text(
               '\$${price.toString()}',

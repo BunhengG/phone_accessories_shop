@@ -130,7 +130,7 @@ class CartScreen extends StatelessWidget {
             direction: DismissDirection.endToStart,
             background: Container(
               alignment: Alignment.centerRight,
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               color: Colors.red,
               child: const Icon(Icons.delete, color: backgroundColor),
             ),
@@ -178,21 +178,20 @@ class CartScreen extends StatelessWidget {
         children: [
           CachedNetworkImage(
             imageUrl: image,
-            width: 80,
-            height: 80,
+            width: 60,
+            height: 60,
             fit: BoxFit.cover,
             placeholder: (context, url) => Center(
               child: Image.asset(
                 'assets/img/pd_placeholder.png',
-                width: 45,
+                width: 40,
               ),
             ),
             errorWidget: (context, url, error) => Image.asset(
               'assets/img/error.png',
-              width: 45,
+              width: 40,
             ),
           ),
-          const SizedBox(width: 12),
           Expanded(
             child: Column(
               children: [
@@ -208,7 +207,7 @@ class CartScreen extends StatelessWidget {
                     Text("\$$price", style: AppTextStyles.getSubtitleSize()),
                   ],
                 ),
-                const SizedBox(height: 12.0),
+                const SizedBox(height: 8.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -220,8 +219,8 @@ class CartScreen extends StatelessWidget {
                           TextSpan(text: '${AppStrings.cartPage.color}: '),
                           TextSpan(
                             text: color,
-                            style: AppTextStyles.getSubtitleSize()
-                                .copyWith(fontSize: 14),
+                            style: AppTextStyles.getSIMISubtitleSize()
+                                .copyWith(color: secondaryColor),
                           ),
                         ],
                       ),
@@ -249,11 +248,10 @@ class CartScreen extends StatelessWidget {
         children: [
           Text(
             label,
-            style: AppTextStyles.getSIMISubtitleSize().copyWith(fontSize: 16),
+            style: AppTextStyles.getSIMISubtitleSize(),
           ),
           Text("\$${amount.toStringAsFixed(2)}",
-              style: AppTextStyles.getSubtitleSize()
-                  .copyWith(fontWeight: FontWeight.w400)),
+              style: AppTextStyles.getSubtitleSize()),
         ],
       ),
     );

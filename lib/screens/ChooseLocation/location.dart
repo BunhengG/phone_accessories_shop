@@ -5,7 +5,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:phone_accessories_shop/components/custom_button.dart';
 import 'package:phone_accessories_shop/data/models/cart_item_database.dart';
+import 'package:phone_accessories_shop/theme/colors_theme.dart';
+import 'package:phone_accessories_shop/theme/text_theme.dart';
 
 class SelectLocationScreen extends StatefulWidget {
   const SelectLocationScreen({super.key});
@@ -67,7 +70,6 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
     return "Unknown Location";
   }
 
-  // Update the marker for the current location
   void _updateMarkers(LatLng position) {
     setState(() {
       _markers.clear();
@@ -75,13 +77,13 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
         Marker(
           markerId: const MarkerId('current_location_marker'),
           position: position,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
         ),
       );
     });
   }
 
-  // Track live location updates
   void _trackLiveLocation() {
     Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
@@ -94,7 +96,6 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
         _updateMarkers(_currentPosition);
       });
 
-      // Only animate the camera if the controller is ready
       if (_mapController != null) {
         _mapController.animateCamera(
           CameraUpdate.newLatLng(_currentPosition),
@@ -103,7 +104,6 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
     });
   }
 
-  // Handle when a user selects a place from search
   void _onPlaceSelected(dynamic place) async {
     double latitude = place['lat'];
     double longitude = place['lng'];
@@ -122,7 +122,6 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
     );
   }
 
-  // Confirm the location and store it in the database
   void _confirmLocation() async {
     // Save location to database
     await CartItemDatabase().addLocation(
@@ -131,7 +130,6 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
       _currentPosition.longitude,
     );
 
-    // Pop the selected location back to the previous screen
     Navigator.pop(context, {
       'lat': _currentPosition.latitude,
       'lng': _currentPosition.longitude,
@@ -140,7 +138,13 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
 
     // Optionally, show a success message
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Location saved successfully!")),
+      const SnackBar(
+        backgroundColor: secondaryColor,
+        content: Text(
+          "Location saved successfully!",
+          style: TextStyle(color: backgroundColor),
+        ),
+      ),
     );
   }
 
@@ -156,9 +160,32 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
+        backgroundColor: backgroundColor,
         centerTitle: true,
-        title: const Text('Select Location'),
+        title: Text(
+          'Select Location',
+          style: AppTextStyles.getSubtitleSize(),
+        ),
+        automaticallyImplyLeading: false,
+        leadingWidth: 60,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: CircleAvatar(
+              backgroundColor: thirdColor,
+              radius: 24,
+              child: Image.asset(
+                'assets/icon/arrowleft.png',
+                scale: 1.5,
+              ),
+            ),
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -178,25 +205,30 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
             left: 20,
             right: 20,
             child: Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.only(top: 4.0),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
+                color: backgroundColor,
+                borderRadius: BorderRadius.circular(16),
                 boxShadow: const [
                   BoxShadow(
-                    color: Colors.black26,
                     blurRadius: 5,
+                    color: placeholderColor,
+                    spreadRadius: 0,
                     offset: Offset(0, 3),
-                  ),
+                  )
                 ],
               ),
               child: GooglePlaceAutoCompleteTextField(
+                boxDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 textEditingController: _searchController,
                 googleAPIKey: "AIzaSyDIhT-WxaBN9HK5xR1H_HeEsr8Uxmvlpyo",
-                inputDecoration: const InputDecoration(
+                inputDecoration: InputDecoration(
                   hintText: "Search location...",
+                  hintStyle: AppTextStyles.getPlaceholderSize(),
                   border: InputBorder.none,
-                  prefixIcon: Icon(Icons.search, color: Colors.blue),
+                  prefixIcon: const Icon(Icons.search, color: placeholderColor),
                 ),
                 debounceTime: 500,
                 countries: const ["KH"],
@@ -209,19 +241,12 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
           // Confirm Button
           Positioned(
             bottom: 30,
-            left: 50,
-            right: 50,
-            child: ElevatedButton(
-              onPressed: _confirmLocation,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-              ),
-              child: const Text("Confirm Location",
-                  style: TextStyle(fontSize: 16, color: Colors.white)),
+            left: 16,
+            right: 16,
+            child: SizedBox(
+              width: double.infinity,
+              child: CustomButton(
+                  textButton: 'Confirm', onTapAction: _confirmLocation),
             ),
           ),
         ],

@@ -17,21 +17,18 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTapAction,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 22.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
         width: double.infinity,
-        height: 64.0,
+        height: 50.0,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
+          borderRadius: BorderRadius.circular(200),
           gradient: btnBackgroundGradient,
         ),
         child: Text(
           textAlign: TextAlign.center,
           textButton,
-          style: AppTextStyles.getSubtitleSize().copyWith(
-            color: backgroundColor,
-            fontSize: 18,
-            height: 1.2,
-          ),
+          style:
+              AppTextStyles.getSubtitleSize().copyWith(color: backgroundColor),
         ),
       ),
     );

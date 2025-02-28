@@ -12,13 +12,13 @@ Widget buildSearchField() {
         hintStyle: AppTextStyles.getPlaceholderSize(),
         filled: true,
         fillColor: thirdColor,
-        contentPadding: const EdgeInsets.symmetric(vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(vertical: 8),
         prefixIcon: Padding(
           padding: const EdgeInsets.all(12),
           child: Image.asset(
             'assets/icon/icon_search.png',
-            width: 20,
-            height: 20,
+            width: 18,
+            height: 18,
           ),
         ),
         border: InputBorder.none,

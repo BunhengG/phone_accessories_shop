@@ -89,7 +89,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     }
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 _buildOption(
                   'Payment Method',
                   selectedPayment,
@@ -160,11 +160,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     title,
                     style: AppTextStyles.getSubtitleSize(),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   Text(
                     subtitle,
-                    style: AppTextStyles.getSIMISubtitleSize()
-                        .copyWith(fontSize: 16),
+                    style: AppTextStyles.getSIMISubtitleSize(),
                   ),
                 ],
               ),
@@ -172,7 +171,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
                   'assets/icon/arrowright.png',
-                  width: 14,
+                  width: 10,
                 ),
               ),
             ],
@@ -190,12 +189,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         children: [
           Text(
             label,
-            style: AppTextStyles.getSIMISubtitleSize().copyWith(fontSize: 16),
+            style: AppTextStyles.getSIMISubtitleSize(),
           ),
           Text(
             "\$${amount.toStringAsFixed(2)}",
-            style: AppTextStyles.getSubtitleSize()
-                .copyWith(fontWeight: FontWeight.w400),
+            style: AppTextStyles.getSubtitleSize(),
           ),
         ],
       ),

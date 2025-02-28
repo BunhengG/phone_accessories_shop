@@ -52,46 +52,40 @@ class CategoriesScreen extends StatelessWidget {
   Widget _buildListCategory(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Theme.of(context).colorScheme.surface,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildListCategoryItem(
-              context,
-              'Watch',
-              'assets/icon/icon_apple_watch.png',
-              const ProductByCategory(categoryName: 'watch'),
-            ),
-            _buildListCategoryItem(
-              context,
-              'Cans',
-              'assets/icon/icon_earphone.png',
-              const ProductByCategory(categoryName: 'earphone'),
-            ),
-            _buildListCategoryItem(
-              context,
-              'Charger',
-              'assets/icon/icon_charger.png',
-              const ProductByCategory(categoryName: 'charger'),
-            ),
-            _buildListCategoryItem(
-              context,
-              'Phone Stand',
-              'assets/icon/icon_phone_stand.png',
-              const ProductByCategory(categoryName: 'phone_stand'),
-            ),
-            _buildListCategoryItem(
-              context,
-              'AirPods',
-              'assets/icon/icon_airpods.png',
-              const ProductByCategory(categoryName: 'airpods'),
-            ),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildListCategoryItem(
+            context,
+            'Watch',
+            'assets/icon/icon_apple_watch.png',
+            const ProductByCategory(categoryName: 'watch'),
+          ),
+          _buildListCategoryItem(
+            context,
+            'Cans',
+            'assets/icon/icon_earphone.png',
+            const ProductByCategory(categoryName: 'earphone'),
+          ),
+          _buildListCategoryItem(
+            context,
+            'Charger',
+            'assets/icon/icon_charger.png',
+            const ProductByCategory(categoryName: 'charger'),
+          ),
+          _buildListCategoryItem(
+            context,
+            'Phone Stand',
+            'assets/icon/icon_phone_stand.png',
+            const ProductByCategory(categoryName: 'phone_stand'),
+          ),
+          _buildListCategoryItem(
+            context,
+            'AirPods',
+            'assets/icon/icon_airpods.png',
+            const ProductByCategory(categoryName: 'airpods'),
+          ),
+        ],
       ),
     );
   }
@@ -104,10 +98,10 @@ class CategoriesScreen extends StatelessWidget {
   ) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(16),
         gradient: compBackgroundGradient,
       ),
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 8),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -118,14 +112,14 @@ class CategoriesScreen extends StatelessWidget {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
                 imagePath,
-                height: 70,
-                width: 70,
+                height: 60,
+                width: 60,
                 fit: BoxFit.cover,
               ),
               const SizedBox(width: 8.0),

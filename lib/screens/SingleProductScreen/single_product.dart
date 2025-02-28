@@ -26,7 +26,6 @@ class SingleProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Dispatch the event to fetch the product data when the widget is first built
     context.read<SingleProductBloc>().add(FetchProduct(productType, productId));
 
     return Scaffold(
@@ -38,7 +37,8 @@ class SingleProduct extends StatelessWidget {
       body: BlocBuilder<SingleProductBloc, SingleProductState>(
         builder: (context, state) {
           if (state is SingleProductLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: CircularProgressIndicator(color: primaryColor));
           }
 
           if (state is SingleProductLoaded) {
@@ -47,19 +47,21 @@ class SingleProduct extends StatelessWidget {
             final selectedColor = state.selectedColor;
             final quantity = state.quantity;
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildImageGallery(product),
-                const SizedBox(height: 16),
-                _buildProductDetails(
-                  product,
-                  context,
-                  availableColors,
-                  selectedColor,
-                  quantity,
-                ),
-              ],
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildImageGallery(product),
+                  const SizedBox(height: 8),
+                  _buildProductDetails(
+                    product,
+                    context,
+                    availableColors,
+                    selectedColor,
+                    quantity,
+                  ),
+                ],
+              ),
             );
           }
 
@@ -99,7 +101,6 @@ class SingleProduct extends StatelessWidget {
             product.shortDescription,
             style: AppTextStyles.getSIMISubtitleSize(),
           ),
-          const SizedBox(height: 16),
 
           // Color Selection
           _buildColorSelector(product, context),
@@ -144,28 +145,28 @@ class SingleProduct extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: product.galleryImages.map((imageUrl) {
           return Container(
-            margin: const EdgeInsets.only(left: 16.0),
-            width: 200,
+            margin: const EdgeInsets.only(left: 8.0),
+            width: 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
               gradient: compBackgroundGradientOption,
             ),
             child: CachedNetworkImage(
               imageUrl: imageUrl,
-              width: 200,
-              height: 280,
+              width: 160,
+              height: 200,
               fit: BoxFit.cover,
               placeholder: (context, url) => Center(
                 child: Image.asset(
                   'assets/img/pd_placeholder.png',
-                  width: 200,
-                  height: 280,
+                  width: 160,
+                  height: 200,
                 ),
               ),
               errorWidget: (context, url, error) => Image.asset(
                 'assets/img/error.png',
-                width: 200,
-                height: 280,
+                width: 160,
+                height: 200,
               ),
             ),
           );
@@ -320,7 +321,7 @@ class SingleProduct extends StatelessWidget {
             );
           },
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               gradient: compBackgroundGradient,
               borderRadius: BorderRadius.circular(100),
@@ -330,7 +331,7 @@ class SingleProduct extends StatelessWidget {
               children: [
                 Text(
                   'Color',
-                  style: AppTextStyles.getTitleSize().copyWith(fontSize: 20.0),
+                  style: AppTextStyles.getSubtitleSize(),
                 ),
                 Row(
                   children: [
@@ -363,9 +364,8 @@ class SingleProduct extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 8),
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3.0),
           decoration: BoxDecoration(
             gradient: compBackgroundGradient,
             borderRadius: BorderRadius.circular(100),
@@ -375,7 +375,7 @@ class SingleProduct extends StatelessWidget {
             children: [
               Text(
                 "Quantity",
-                style: AppTextStyles.getTitleSize().copyWith(fontSize: 20.0),
+                style: AppTextStyles.getSubtitleSize(),
               ),
               Row(
                 children: [
@@ -390,7 +390,7 @@ class SingleProduct extends StatelessWidget {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(18.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Text(
                       "${context.read<SingleProductBloc>().quantity}",
                       style: AppTextStyles.getSubtitleSize(),
@@ -418,16 +418,23 @@ class SingleProduct extends StatelessWidget {
   }
 
   Widget _buildActionQty(String imagePath, VoidCallback onAction) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: primaryColor,
-        shape: BoxShape.circle,
-      ),
-      child: IconButton(
-        onPressed: onAction,
-        icon: Image.asset(
-          imagePath,
-          width: 16,
+    return GestureDetector(
+      onTap: onAction,
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: const BoxDecoration(
+          color: primaryColor,
+          shape: BoxShape.circle,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Image.asset(
+            imagePath,
+            width: 16,
+            height: 16,
+            filterQuality: FilterQuality.high,
+          ),
         ),
       ),
     );

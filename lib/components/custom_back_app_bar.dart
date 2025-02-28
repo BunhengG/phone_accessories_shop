@@ -17,6 +17,7 @@ class CustomBackAppBar extends StatelessWidget {
         centerTitle: true,
         backgroundColor: backgroundColor,
         elevation: 0,
+        leadingWidth: 40,
         scrolledUnderElevation: 0,
         leading: GestureDetector(
           onTap: () {
@@ -24,10 +25,10 @@ class CustomBackAppBar extends StatelessWidget {
           },
           child: CircleAvatar(
             backgroundColor: thirdColor,
-            radius: 28,
+            radius: 24,
             child: Image.asset(
               'assets/icon/arrowleft.png',
-              scale: 1.2,
+              scale: 1.5,
             ),
           ),
         ),
