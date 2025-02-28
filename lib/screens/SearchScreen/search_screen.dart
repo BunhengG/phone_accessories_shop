@@ -21,6 +21,13 @@ class _SearchScreenState extends State<SearchScreen> {
     "MacBook Air",
     "Sony Headphones",
   ];
+  List<String> _filteredSuggestions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredSuggestions = _suggestions;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,28 +41,30 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           _buildSearchField(),
           buildCategoriesSection(context: context),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _suggestions.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    _suggestions[index],
-                    style: AppTextStyles.getSubtitleSize(),
+          _filteredSuggestions.isEmpty
+              ? _buildNoResultsFound()
+              : Expanded(
+                  child: ListView.builder(
+                    itemCount: _suggestions.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(
+                          _suggestions[index],
+                          style: AppTextStyles.getSubtitleSize(),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchResultsScreen(
+                                  query: _suggestions[index]),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            SearchResultsScreen(query: _suggestions[index]),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
+                ),
         ],
       ),
     );
@@ -92,6 +101,27 @@ class _SearchScreenState extends State<SearchScreen> {
             borderSide: BorderSide.none,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildNoResultsFound() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/icon/empty_order.png',
+            width: 120,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            textAlign: TextAlign.center,
+            "Sorry, we couldn’t find any matching result for your Search.",
+            style: AppTextStyles.getSubtitleSize(),
+          ),
+        ],
       ),
     );
   }
