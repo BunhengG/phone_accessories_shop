@@ -1,232 +1,10 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-// import 'package:geolocator/geolocator.dart';
-// import 'package:phone_accessories_shop/theme/colors_theme.dart';
-
-// import '../../theme/text_theme.dart';
-
-// class SelectLocationScreen extends StatefulWidget {
-//   const SelectLocationScreen({super.key});
-
-//   @override
-//   State<SelectLocationScreen> createState() => _SelectLocationScreenState();
-// }
-
-// class _SelectLocationScreenState extends State<SelectLocationScreen> {
-//   late GoogleMapController _mapController;
-//   BitmapDescriptor _markerIcon = BitmapDescriptor.defaultMarker;
-//   final LatLng _staticMarkerPosition =
-//       const LatLng(13.350918350149795, 103.86433962916841);
-//   LatLng _currentPosition =
-//       const LatLng(13.350918350149795, 103.86433962916841);
-//   bool _isLocationReady = false;
-
-//   // Markers
-//   Set<Marker> _markers = {};
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _loadCustomIcon();
-//     _getCurrentLocation();
-//   }
-
-//   // Load custom icon for static marker
-//   void _loadCustomIcon() async {
-//     BitmapDescriptor.fromAssetImage(
-//       const ImageConfiguration(),
-//       'assets/img/logo.png',
-//     ).then((markerIcon) {
-//       setState(() {
-//         _markerIcon = markerIcon;
-//         _updateMarkers();
-//       });
-//     });
-//   }
-
-//   // Get current device location
-//   void _getCurrentLocation() async {
-//     LocationPermission permission = await Geolocator.requestPermission();
-
-//     if (permission == LocationPermission.denied) {
-//       permission = await Geolocator.requestPermission();
-//     }
-
-//     if (permission == LocationPermission.deniedForever) {
-//       // Handle error, show message to user about enabling location
-//       return;
-//     }
-
-//     Position position = await Geolocator.getCurrentPosition(
-//         desiredAccuracy: LocationAccuracy.high);
-
-//     setState(() {
-//       _currentPosition = LatLng(position.latitude, position.longitude);
-//       _isLocationReady = true;
-//       _updateMarkers();
-//     });
-
-//     // Ensure the map controller is initialized before animating the camera
-//     _mapController.animateCamera(
-//       CameraUpdate.newLatLngZoom(_currentPosition, 18),
-//     );
-//   }
-
-//   void _onMapCreated(GoogleMapController controller) {
-//     _mapController = controller;
-//     // Animate the camera only after the location is ready
-//     if (_isLocationReady) {
-//       _mapController.animateCamera(
-//         CameraUpdate.newLatLngZoom(_currentPosition, 18),
-//       );
-//     }
-//   }
-
-//   // Update markers
-//   void _updateMarkers() {
-//     _markers = {
-//       // Static marker (using custom icon)
-//       Marker(
-//         markerId: const MarkerId('static_marker'),
-//         position: _staticMarkerPosition,
-//         icon: _markerIcon,
-//       ),
-//       // Dynamic marker (following current device location)
-//       Marker(
-//         markerId: const MarkerId('current_location_marker'),
-//         position: _currentPosition,
-//         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-//       ),
-//     };
-//   }
-
-//   void _zoomIn() {
-//     _mapController.animateCamera(CameraUpdate.zoomIn());
-//   }
-
-//   void _zoomOut() {
-//     _mapController.animateCamera(CameraUpdate.zoomOut());
-//   }
-
-//   MapType _currentMapType = MapType.normal;
-
-//   void _onMapTypeButtonPressed() {
-//     setState(() {
-//       _currentMapType = _currentMapType == MapType.normal
-//           ? MapType.satellite
-//           : MapType.normal;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         centerTitle: true,
-//         backgroundColor: backgroundColor,
-//         elevation: 0,
-//         scrolledUnderElevation: 0,
-//         leading: Padding(
-//           padding: const EdgeInsets.all(5.0),
-//           child: GestureDetector(
-//             onTap: () {
-//               Navigator.pop(context);
-//             },
-//             child: CircleAvatar(
-//               backgroundColor: thirdColor,
-//               radius: 28,
-//               child: Image.asset(
-//                 'assets/icon/arrowleft.png',
-//                 scale: 1.5,
-//               ),
-//             ),
-//           ),
-//         ),
-//         title: Text('Location', style: AppTextStyles.getSubtitleSize()),
-//       ),
-//       body: Stack(
-//         children: [
-//           GoogleMap(
-//             zoomControlsEnabled: false,
-//             onMapCreated: _onMapCreated,
-//             mapType: _currentMapType,
-//             initialCameraPosition: CameraPosition(
-//               target: _currentPosition,
-//               zoom: 18,
-//             ),
-//             markers: _markers,
-//             circles: {
-//               Circle(
-//                 circleId: const CircleId("1"),
-//                 // center: _currentPosition,
-//                 center: _staticMarkerPosition,
-//                 radius: 46,
-//                 strokeWidth: 2,
-//                 strokeColor: primaryColor,
-//                 fillColor: primaryColor.withOpacity(0.2),
-//               ),
-//             },
-//           ),
-//           _buildZoomController(),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildZoomController() {
-//     return Positioned(
-//       top: 20,
-//       right: 5,
-//       child: Column(
-//         children: [
-//           ElevatedButton(
-//             onPressed: _onMapTypeButtonPressed,
-//             style: ElevatedButton.styleFrom(
-//               foregroundColor: thirdColor,
-//               backgroundColor: primaryColor,
-//               shape: const CircleBorder(),
-//               padding: const EdgeInsets.all(8),
-//               elevation: 4,
-//             ),
-//             child: const Icon(Icons.layers),
-//           ),
-//           ElevatedButton(
-//             onPressed: _zoomIn,
-//             style: ElevatedButton.styleFrom(
-//               foregroundColor: thirdColor,
-//               backgroundColor: primaryColor,
-//               shape: const CircleBorder(),
-//               padding: const EdgeInsets.all(8),
-//               elevation: 4,
-//             ),
-//             child: const Icon(Icons.add),
-//           ),
-//           ElevatedButton(
-//             onPressed: _zoomOut,
-//             style: ElevatedButton.styleFrom(
-//               foregroundColor: thirdColor,
-//               backgroundColor: primaryColor,
-//               shape: const CircleBorder(),
-//               padding: const EdgeInsets.all(8),
-//               elevation: 4,
-//             ),
-//             child: const Icon(Icons.remove),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 // ! Update
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:phone_accessories_shop/theme/colors_theme.dart';
-
-import '../../theme/text_theme.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 
 class SelectLocationScreen extends StatefulWidget {
   const SelectLocationScreen({super.key});
@@ -237,9 +15,10 @@ class SelectLocationScreen extends StatefulWidget {
 
 class _SelectLocationScreenState extends State<SelectLocationScreen> {
   late GoogleMapController _mapController;
-  LatLng _currentPosition = const LatLng(0.0, 0.0);
-  bool _isLocationReady = false;
-  final Set<Marker> _markers = {};
+  LatLng _currentPosition = const LatLng(11.5564, 104.9282);
+  Set<Marker> _markers = {};
+  final TextEditingController _searchController = TextEditingController();
+  String _selectedAddress = "Fetching location...";
 
   @override
   void initState() {
@@ -248,26 +27,59 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
     _trackLiveLocation();
   }
 
-  // Get current location (Initial Fetch)
+  //! Get current device location (Initial Fetch)
   Future<void> _getCurrentLocation() async {
     LocationPermission permission = await Geolocator.requestPermission();
+
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
-      return; // Exit if no permission
+      return;
     }
 
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
 
+      String address =
+          await _getAddressFromLatLng(position.latitude, position.longitude);
+
+      // print("Current Location Address: $address");
+
+      setState(() {
+        _currentPosition = LatLng(position.latitude, position.longitude);
+        _selectedAddress = address;
+        _updateMarkers(_currentPosition);
+      });
+
+      _mapController.animateCamera(
+        CameraUpdate.newLatLngZoom(_currentPosition, 18),
+      );
+    } catch (e) {
+      print("Error fetching location: $e");
+    }
+  }
+
+  Future<String> _getAddressFromLatLng(double lat, double lng) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
+    if (placemarks.isNotEmpty) {
+      Placemark place = placemarks[0];
+      return "${place.street}, ${place.subLocality}, ${place.locality}";
+    }
+    return "Unknown Location";
+  }
+
+  // Update the marker for the current location
+  void _updateMarkers(LatLng position) {
     setState(() {
-      _currentPosition = LatLng(position.latitude, position.longitude);
-      _isLocationReady = true;
-      _updateMarkers();
+      _markers.clear();
+      _markers.add(
+        Marker(
+          markerId: const MarkerId('current_location_marker'),
+          position: position,
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+        ),
+      );
     });
-
-    _mapController.animateCamera(
-      CameraUpdate.newLatLngZoom(_currentPosition, 18),
-    );
   }
 
   // Track live location updates
@@ -275,59 +87,58 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
     Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.high,
-        distanceFilter: 5, // Update location if moved by 5 meters
+        distanceFilter: 5,
       ),
     ).listen((Position position) {
       setState(() {
         _currentPosition = LatLng(position.latitude, position.longitude);
-        _updateMarkers();
+        _updateMarkers(_currentPosition);
       });
 
-      _mapController.animateCamera(
-        CameraUpdate.newLatLng(_currentPosition),
-      );
+      // Only animate the camera if the controller is ready
+      // ignore: unnecessary_null_comparison
+      if (_mapController != null) {
+        _mapController.animateCamera(
+          CameraUpdate.newLatLng(_currentPosition),
+        );
+      }
     });
   }
 
-  // Update the marker for the current location
-  void _updateMarkers() {
+  // Handle when a user selects a place from search
+  void _onPlaceSelected(dynamic place) async {
+    double latitude = place['lat'];
+    double longitude = place['lng'];
+    String address = place['description'];
+
+    LatLng newLocation = LatLng(latitude, longitude);
+
     setState(() {
-      _markers.clear(); // Remove previous markers
-      _markers.add(
-        Marker(
-          markerId: const MarkerId('current_location_marker'),
-          position: _currentPosition,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-        ),
-      );
+      _currentPosition = newLocation;
+      _selectedAddress = address;
+      _updateMarkers(newLocation);
+    });
+
+    _mapController.animateCamera(
+      CameraUpdate.newLatLngZoom(newLocation, 18),
+    );
+  }
+
+  void _confirmLocation() {
+    Navigator.pop(context, {
+      'lat': _currentPosition.latitude,
+      'lng': _currentPosition.longitude,
+      'address': _selectedAddress,
     });
   }
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-    if (_isLocationReady) {
+    if (_currentPosition != null) {
       _mapController.animateCamera(
         CameraUpdate.newLatLngZoom(_currentPosition, 18),
       );
     }
-  }
-
-  void _zoomIn() {
-    _mapController.animateCamera(CameraUpdate.zoomIn());
-  }
-
-  void _zoomOut() {
-    _mapController.animateCamera(CameraUpdate.zoomOut());
-  }
-
-  MapType _currentMapType = MapType.normal;
-
-  void _onMapTypeButtonPressed() {
-    setState(() {
-      _currentMapType = _currentMapType == MapType.normal
-          ? MapType.satellite
-          : MapType.normal;
-    });
   }
 
   @override
@@ -335,83 +146,71 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: backgroundColor,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: CircleAvatar(
-              backgroundColor: thirdColor,
-              radius: 28,
-              child: Image.asset(
-                'assets/icon/arrowleft.png',
-                scale: 1.5,
-              ),
-            ),
-          ),
-        ),
-        title: Text('Location', style: AppTextStyles.getSubtitleSize()),
+        title: const Text('Select Location'),
       ),
       body: Stack(
         children: [
           GoogleMap(
             zoomControlsEnabled: false,
             onMapCreated: _onMapCreated,
-            mapType: _currentMapType,
             initialCameraPosition: CameraPosition(
               target: _currentPosition,
               zoom: 18,
             ),
             markers: _markers,
           ),
-          _buildZoomController(),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildZoomController() {
-    return Positioned(
-      top: 20,
-      right: 5,
-      child: Column(
-        children: [
-          ElevatedButton(
-            onPressed: _onMapTypeButtonPressed,
-            style: ElevatedButton.styleFrom(
-              foregroundColor: thirdColor,
-              backgroundColor: primaryColor,
-              shape: const CircleBorder(),
+          // Search Bar
+          Positioned(
+            top: 15,
+            left: 20,
+            right: 20,
+            child: Container(
               padding: const EdgeInsets.all(8),
-              elevation: 4,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: GooglePlaceAutoCompleteTextField(
+                textEditingController: _searchController,
+                googleAPIKey: "AIzaSyDIhT-WxaBN9HK5xR1H_HeEsr8Uxmvlpyo",
+                inputDecoration: const InputDecoration(
+                  hintText: "Search location...",
+                  border: InputBorder.none,
+                  prefixIcon: Icon(Icons.search, color: Colors.blue),
+                ),
+                debounceTime: 500,
+                countries: const ["KH"],
+                isLatLngRequired: true,
+                getPlaceDetailWithLatLng: _onPlaceSelected,
+              ),
             ),
-            child: const Icon(Icons.layers),
           ),
-          ElevatedButton(
-            onPressed: _zoomIn,
-            style: ElevatedButton.styleFrom(
-              foregroundColor: thirdColor,
-              backgroundColor: primaryColor,
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(8),
-              elevation: 4,
+
+          // Confirm Button
+          Positioned(
+            bottom: 30,
+            left: 50,
+            right: 50,
+            child: ElevatedButton(
+              onPressed: _confirmLocation,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+              child: const Text("Confirm Location",
+                  style: TextStyle(fontSize: 16, color: Colors.white)),
             ),
-            child: const Icon(Icons.add),
-          ),
-          ElevatedButton(
-            onPressed: _zoomOut,
-            style: ElevatedButton.styleFrom(
-              foregroundColor: thirdColor,
-              backgroundColor: primaryColor,
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(8),
-              elevation: 4,
-            ),
-            child: const Icon(Icons.remove),
           ),
         ],
       ),

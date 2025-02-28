@@ -29,6 +29,7 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  String selectedAddress = '';
   String selectedPayment = 'Cash On Delivery';
 
   @override
@@ -52,14 +53,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               children: [
                 _buildOption(
                   'Shipping Address',
-                  '7 Makara St, Krong Siem Reap...',
-                  () {
-                    Navigator.push(
+                  selectedAddress.isEmpty
+                      ? 'Select a location'
+                      : selectedAddress,
+                  () async {
+                    final result = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const SelectLocationScreen(),
                       ),
                     );
+
+                    if (result != null) {
+                      setState(() {
+                        selectedAddress = result['address'];
+                      });
+                    }
                   },
                 ),
                 const SizedBox(height: 16),
